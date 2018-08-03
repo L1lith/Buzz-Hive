@@ -1,5 +1,6 @@
 const {details} = require('sandhands')
 const httpAuth = require('express-http-auth')
+const bcrypt = require('bcrypt')
 
 function login(router, {models}) {
   const {User} = models
@@ -11,7 +12,12 @@ function login(router, {models}) {
       if (err) return next(err)
       if (!user) return res.sendStatus(401)
 
-      console.log(user)
+      const {hash} = user
+      bcrypt.compare(password, hash, (err, valid) => {
+        if (err) return next(err)
+        if (valid !== true) return res.sendStatus(401)
+        res.sendStatus(200)
+      })
     })
 
   })
