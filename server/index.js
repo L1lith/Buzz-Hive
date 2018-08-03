@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 const router = require('./router')
 const createModels = require('./models')
 
-const port = require('./config').port || 8050
+const port = require('./config').port || 8040
 
 async function createServer() {
   const server = express()
