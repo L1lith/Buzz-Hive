@@ -1,9 +1,9 @@
 const {details} = require('sandhands')
 const httpAuth = require('express-http-auth')
 const bcrypt = require('bcrypt')
-const getSession = require('../../functions/getSession')
 
-function login(router, {models}) {
+function login(router, {models, functions}) {
+  const {getSession} = functions
   const {User} = models
   router.get('/login', httpAuth.realm(null), (req, res, next) => {
     const {username, password} = req
@@ -17,7 +17,7 @@ function login(router, {models}) {
       bcrypt.compare(password, hash, (err, valid) => {
         if (err) return next(err)
         if (valid !== true) return res.sendStatus(401)
-        getSession(username, models, (err, token) => {
+        getSession(username, (err, token) => {
           if (err) return next(err)
           res.cookie('username', username, {httpOnly: true})
           res.cookie('session', token, {httpOnly: true})
