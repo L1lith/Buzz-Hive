@@ -19,9 +19,9 @@ async function createServer() {
   data.middleware = data.functions.middleware
 
   // Setup Middleware
+  server.use(helmet())
   server.use(bodyParser.json())
   server.use(cookieParser())
-  app.use(helmet())
 
 
   // Run Router
