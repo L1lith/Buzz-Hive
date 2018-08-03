@@ -6,7 +6,7 @@ function verifyEmail(router, {middleware}) {
     const {randomBytes} = require('crypto')
     randomBytes(8, (err, buf) => {
       if (err) return next(err)
-      req.user.verificationCode = buf.toString('base64')
+      const verificationCode = req.user.verificationCode = buf.toString('base64')
       req.user.save(err => {
         if (err) return next(err)
         res.sendStatus(200)
