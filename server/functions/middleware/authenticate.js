@@ -1,8 +1,8 @@
 const {details} = require('sandhands')
 
 function authenticate(data) {
-  return options => {
-    const {Session, User} = data.models
+  const {Session, User} = data.models
+  return (options={}) => {
     const {getUser=false} = options
     return (req, res, next) => {
       const reqError = details(req.cookies, {_: {username: 'username', session: String}, strict: false})

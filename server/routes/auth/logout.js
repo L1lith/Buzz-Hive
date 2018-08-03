@@ -1,5 +1,9 @@
-function logout(router, {models, functions}) {
-  router.get('/login', functions.middleware.authenticate())
+function logout(router, {functions}) {
+  router.get('/logout', functions.middleware.authenticate(), (req,res) => {
+    res.clearCookie("session")
+    res.clearCookie("username")
+    res.sendStatus(200)
+  })
 }
 
 module.exports = logout
