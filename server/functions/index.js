@@ -13,8 +13,7 @@ async function getFunctions(data, functions=allFunctions) {
     const args = functionArguments(setupFunction)
     let func = null
     if (args.length === 1 && args[0] === 'data') {
-      func = setupFunction(data)
-      if (func instanceof Promise) func = await func
+      func = await setupFunction(data)
     } else {
       func = setupFunction
     }
