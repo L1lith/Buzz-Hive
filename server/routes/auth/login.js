@@ -1,16 +1,19 @@
-const {sandhandsExpress} = require('sandhands')
-const basicAuth = require('express-basic-auth')
+const {details} = require('sandhands')
+const httpAuth = require('express-http-auth')
 
 function login(router, {models}) {
-  router.get('/login', sandhandsExpress({
-    username: 'username',
-    password: 'password'
-  }))
-  router.get('/login', basicAuth({authorizer: (username, password) => {
+  const {User} = models
+  router.get('/login', httpAuth.realm('Authentication'), (req, res) => {
+    const {username, password} = req
+    const authErrors = details([username, password], ['username', 'password'])
+    if (authErrors !== null) return res.status(400).json(authErrors)
+    User.findOne({username}, (err, user) => {
+      if (err) return res.status(500).send('Internal Error')
+      if (!user) return res.sendStatus(401)
 
-  }}))
-  router.get('/login', (req, res) => {
-    console.log(req.body)
+      console.log(user)
+    })
+
   })
 }
 
