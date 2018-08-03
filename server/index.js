@@ -13,6 +13,7 @@ async function createServer() {
   const data = {}
   data.models = await createModels()
   data.functions = await getFunctions(data)
+  data.middleware = data.functions.middleware
   server.use(bodyParser.json())
   server.use(cookieParser())
   await router(server, data)
