@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const requireDirectory = require('require-directory')
-const router = require('./router')
+const router = require('./routes')
 const createModels = require('./models')
 const getFunctions = require('./functions')
 
