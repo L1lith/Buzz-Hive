@@ -16,6 +16,8 @@ function login(router, {models}) {
       bcrypt.compare(password, hash, (err, valid) => {
         if (err) return next(err)
         if (valid !== true) return res.sendStatus(401)
+        
+        res.cookie('username', username, {httpOnly: true})
         res.sendStatus(200)
       })
     })
