@@ -15,6 +15,7 @@ function signup(router, {models}) {
       const user = new User({username, password, hash, email})
       user.save(err => {
         if (err) return next(err)
+        
         res.cookie('username', username, {httpOnly: true})
         res.sendStatus(200)
       })
