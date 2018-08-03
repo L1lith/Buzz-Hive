@@ -4,7 +4,7 @@ const longAuthLimit = new RateLimit({
   windowMs: 7 * 24 * 60 * 60 * 1000, // 1 Week
   max: 100,
   message: "Too many requests to the authentication API, please try again later.",
-  delayMs: 0
+  delayMs: 0 // Disabled
 })
 
 const shortAuthLimit = new RateLimit({
