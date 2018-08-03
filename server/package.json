@@ -23,6 +23,7 @@
     "express-http-auth": "^0.1.0",
     "express-rate-limit": "^2.12.1",
     "function-arguments": "^1.0.8",
+    "helmet": "^3.13.0",
     "mongoose": "^5.2.6",
     "require-directory": "^2.1.1",
     "sandhands": "^1.3.43",
