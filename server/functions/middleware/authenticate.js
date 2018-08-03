@@ -13,11 +13,11 @@ function authenticate(data) {
         if (!session) return res.sendStatus(401)
         req.session = session
         req.token = session._id
-        if (getUser === false && requireVerification === false) return next()
-        User.findOne({username: cookies.username}, (err, user) => {
+        if (getUser !== true && requireVerification !== true) return next()
+        User.findOne({username: req.cookies.username}, (err, user) => {
           if (err) return next(err)
           req.user = user
-          if (user.verified !== true) return res.status(401).send('Email Verification Required')
+          if (requireVerification === true && user.verified !== true) return res.status(401).send('Email Verification Required')
           next()
         })
       })
