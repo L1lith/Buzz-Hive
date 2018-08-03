@@ -10,9 +10,11 @@ async function setupRoutes(routes, app, data={}) {
     const routeEntries = Object.entries(routes)
     for (let i = 0; i < routeEntries.length; i++) {
       const [pathKey, value] = routeEntries[i]
+      if (pathKey === 'index') return
       if (typeof value == 'object' && value !== null) {
         const router = new Router()
-        setupRoutes(value, router, data)
+        if (typeof value.index == 'function') value.index(router, data)
+        await setupRoutes(value, router, data)
         app.use('/'+pathKey, router)
       } else if (typeof value == 'function') {
         const output = value(app, data)

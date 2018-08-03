@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const schemas = require('require-directory')(module, {recurse: false})
 const S = require('string')
-const mongooseOptions = require('./config').mongoose
+const mongooseOptions = require('../config').mongoose
 const mongooseURI = mongooseOptions.URI
 delete mongooseOptions.URI
 
