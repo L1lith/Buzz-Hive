@@ -1,11 +1,15 @@
 const functionArguments = require('function-arguments')
-const functions = require('require-directory')(module, './functions', {recursive: false})
+const allFunctions = require('require-directory')(module, './functions')
 
-async function getFunctions(data) {
+async function getFunctions(data, functions=allFunctions) {
   const output = {}
   const functionEntries = Object.entries(functions)
   for (let i = 0; i < functionEntries.length; i++) {
     const [name, setupFunction] = functionEntries[i]
+    if (typeof setupFunction == 'object' && setupFunction !== null) {
+      output[name] = await getFunctions(data, setupFunction)
+      continue
+    }
     const args = functionArguments(setupFunction)
     let func = null
     if (args.length === 1 && args[0] === 'data') {

@@ -1,7 +1,5 @@
-const authenticate = require('../../middleware/authenticate')
-
 function logout(router, {models, functions}) {
-  router.get('/login', authenticate(models))
+  router.get('/login', functions.middleware.authenticate())
 }
 
 module.exports = logout

@@ -1,6 +1,7 @@
 const {randomBytes} = require('crypto')
 
 function getSession(data) {
+  console.log({data})
   const {Session} = data.models
   return (owner, callback) => {
     Session.findOne({owner}, (err, session) => {
