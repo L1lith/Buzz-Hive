@@ -1,7 +1,7 @@
 const RateLimit = require('express-rate-limit')
 
 const longAuthLimit = new RateLimit({
-  windowMs: 10 * 24 * 60 * 60 * 1000, // 10 days
+  windowMs: 7 * 24 * 60 * 60 * 1000, // 1 Week
   max: 100,
   message: "Too many requests to the authentication API, please try again later."
 })
