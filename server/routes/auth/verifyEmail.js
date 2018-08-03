@@ -9,7 +9,7 @@ function verifyEmail(router, {middleware}) {
       req.user.verificationCode = buf.toString('base64')
       req.user.save(err => {
         if (err) return next(err)
-        res.status(200)
+        res.sendStatus(200)
         // Email the verification code here
       })
     })
