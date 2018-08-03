@@ -8,7 +8,7 @@ function authenticate(data) {
       const reqError = details(req.cookies, {_: {username: 'username', session: String}, strict: false})
       if (reqError !== null) return res.status(400).json({cookies: reqError})
 
-      Session.findOne({owner: req.cookies.username, _id: req.cookies.token}, (err, session) => {
+      Session.findOne({owner: req.cookies.username, id: req.cookies.token}, (err, session) => {
         if (err) return next(err)
         if (!session) return res.sendStatus(401)
         req.session = session
