@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/L1lith/Buzz-Hive#readme",
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "express": "^4.16.3",
     "express-http-auth": "^0.1.0",
     "mongoose": "^5.2.6",
