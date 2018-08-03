@@ -1,14 +1,16 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const router = require('./router')
 const createModels = require('./models')
 
-const port = 8050
+const port = require('./config').port || 8050
 
 async function createServer() {
   const server = express()
   const models = await createModels()
   server.use(bodyParser.json())
+  server.use(cookieParser())
   await router(server, {models})
   return server
 }
