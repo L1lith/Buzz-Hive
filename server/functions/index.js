@@ -1,5 +1,5 @@
 const functionArguments = require('function-arguments')
-const allFunctions = require('require-directory')(module, './functions')
+const allFunctions = require('require-directory')(module)
 
 async function getFunctions(data, functions=allFunctions) {
   const output = {}
