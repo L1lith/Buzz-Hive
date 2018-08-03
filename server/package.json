@@ -21,6 +21,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
     "express-http-auth": "^0.1.0",
+    "express-rate-limit": "^2.12.1",
     "function-arguments": "^1.0.8",
     "mongoose": "^5.2.6",
     "require-directory": "^2.1.1",
