@@ -15,7 +15,7 @@ async function setupRoutes(routes, app, data={}) {
       if (pathKey === 'index') continue
       if (typeof value == 'object' && value !== null) {
         const router = new Router()
-        if (typeof value.index == 'function') value.index(router, data)
+        if (typeof value.index == 'function') await value.index(router, data)
         await setupRoutes(value, router, data)
         console.log(pathKey, router)
         app.use('/'+pathKey, router)
