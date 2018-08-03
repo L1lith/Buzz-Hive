@@ -35,5 +35,9 @@ module.exports = {
     type: Boolean,
     required: true,
     default: false
+  },
+  verificationCode: {
+    type: String,
+    required: false
   }
 }
