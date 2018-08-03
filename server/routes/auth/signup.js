@@ -1,5 +1,6 @@
 const {sandhandsExpress} = require('sandhands')
 const bcrypt = require('bcrypt')
+const getSession = require('../../functions/getSession')
 
 function signup(router, {models}) {
   const {User} = models
@@ -15,9 +16,12 @@ function signup(router, {models}) {
       const user = new User({username, password, hash, email})
       user.save(err => {
         if (err) return next(err)
-        
-        res.cookie('username', username, {httpOnly: true})
-        res.sendStatus(200)
+        getSession(username, models, (err, token) => {
+          if (err) return next(err)
+          res.cookie('username', username, {httpOnly: true})
+          res.cookie('session', token, {httpOnly: true})
+          res.sendStatus(200)
+        })
       })
     })
   })
