@@ -1,5 +1,5 @@
 function valid(router, {middleware}) {
-  router.get('/valid', middleware.authenticate(), (req, res) => {
+  router.get('/valid', middleware.authenticate({requireVerification: false}), (req, res) => {
     res.sendStatus(200)
   })
 }
