@@ -18,5 +18,8 @@
     "BuzzHive"
   ],
   "author": "L1lith",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "packenv": "^1.0.1"
+  }
 }
