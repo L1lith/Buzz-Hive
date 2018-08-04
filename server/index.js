@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const requireDirectory = require('require-directory')
 const helmet = require('helmet')
-const router = require('./routes')
+const setupRouter = require('./routes')
 const createModels = require('./models')
 const getFunctions = require('./functions')
 
@@ -27,7 +27,8 @@ async function createServer() {
 
 
   // Run Router
-  await router(server, data)
+  const router = await setupRouter(data)
+  server.use('/api', router)
   return server
 }
 
