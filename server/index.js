@@ -26,7 +26,10 @@ async function createServer() {
   server.use(bodyParser.json())
   server.use(cookieParser())
 
-  if (process.env.NODE_ENV !== 'production') server.use(express.static(resolve(__dirname, '../worker/dist')))
+  if (process.env.NODE_ENV !== 'production') {
+    server.use(express.static(resolve(__dirname, '../worker/dist')))
+    server.use(express.static(resolve(__dirname, '../client/dist')))
+  }
 
 
   // Run Router

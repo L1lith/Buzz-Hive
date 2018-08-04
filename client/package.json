@@ -1,0 +1,25 @@
+{
+  "name": "buzz-hive-service-worker",
+  "version": "1.0.0",
+  "description": "Buzzhive's Service Worker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Javascript",
+    "JS",
+    "ServiceWorkers",
+    "SW",
+    "Service-Worker",
+    "ServiceWorker",
+    "Buzz",
+    "Hive",
+    "BuzzHive"
+  ],
+  "author": "L1lith",
+  "license": "MIT",
+  "dependencies": {
+    "packenv": "^1.0.1"
+  }
+}
