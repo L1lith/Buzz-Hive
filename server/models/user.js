@@ -39,5 +39,9 @@ module.exports = {
   verificationCode: {
     type: String,
     required: false
+  },
+  hiveIP: {
+    type: String,
+    required: false
   }
 }

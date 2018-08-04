@@ -12,6 +12,8 @@ const port = require('./config').port || 8040
 async function createServer() {
   const server = express()
   const data = {}
+  // Configure server
+  server.enable('trust proxy')
 
   // Prepare Server
   data.models = await createModels()
