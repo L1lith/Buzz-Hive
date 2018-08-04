@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const setupRoutes = require('./routes')
 const createModels = require('./models')
 const getFunctions = require('./functions')
+const {resolve} = require('path')
 
 const port = require('./config').port || 8040
 
@@ -25,9 +26,11 @@ async function createServer() {
   server.use(bodyParser.json())
   server.use(cookieParser())
 
+  if (process.env.NODE_ENV !== 'production') server.use(express.static(resolve(__dirname, '../worker/dist')))
+
 
   // Run Router
-  server.use( await setupRoutes(data))
+  server.use(await setupRoutes(data))
   return server
 }
 
