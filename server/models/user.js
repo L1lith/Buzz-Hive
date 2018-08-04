@@ -39,5 +39,12 @@ module.exports = {
   verificationCode: {
     type: String,
     required: false
+  },
+  devices: {
+    type: [{
+      name: String,
+      pushURL: String
+    }],
+    required: false
   }
 }

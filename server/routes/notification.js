@@ -7,7 +7,7 @@ function notification(router, {middleware}) {
     to: {_: [String], optional: true}
   }), (req, res) => {
     const {username} = req.user
-
+    
   })
 }
 
