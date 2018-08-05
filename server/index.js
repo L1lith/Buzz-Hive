@@ -29,6 +29,7 @@ async function createServer() {
   if (process.env.NODE_ENV !== 'production') {
     server.use(express.static(resolve(__dirname, '../worker/dist')))
     server.use(express.static(resolve(__dirname, '../client/dist')))
+    server.use(express.static(resolve(__dirname, '../client/static')))
   }
 
 
