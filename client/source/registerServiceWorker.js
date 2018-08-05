@@ -1,7 +1,7 @@
-function registerServiceWorker() {
+async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return
   const {serviceWorker} = navigator
-  return serviceWorker.register('/worker.js')
+  await (await serviceWorker.register('/worker.js')).pushManager.subscribe()
 }
 
 module.exports = registerServiceWorker
