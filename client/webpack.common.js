@@ -4,7 +4,7 @@ module.exports = {
   entry: "./source/index.js",
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: 'worker.js'
+    filename: 'app.js'
   },
   mode: process.env.NODE_ENV
 }
