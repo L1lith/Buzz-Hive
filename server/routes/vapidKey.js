@@ -1,9 +1,6 @@
-function vapidKey(router, {vapidKeys}) {
+function vapidKey(router, {functions, vapidKeys}) {
   const {publicKey, modified} = vapidKeys
-  const lastModified = modified.toUTCString()
-  router.get('/vapidKey', (req, res) => {
-    res.send(publicKey)
-  })
+  router.get('/vapidKey', functions.serveStaticString(publicKey, modified))
 }
 
 module.exports = vapidKey
