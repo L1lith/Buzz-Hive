@@ -15,6 +15,7 @@ async function createApplicationKey() {
     await writeFile(keyPath, JSON.stringify(vapidKeys, null, 2))
   }
   webpush.setVapidDetails('mailto:' + supportEmail, vapidKeys.publicKey, vapidKeys.privateKey)
+  return {vapidKeys}
 }
 
 exports.launch = createApplicationKey
