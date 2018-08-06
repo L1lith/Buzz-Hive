@@ -22,4 +22,20 @@ async function createApplicationKey() {
   return {vapidKeys}
 }
 
+function createNotificationSender(vapidKeys) {
+  const {publicKey, privateKey} = vapidKeys
+  return (endpoint) => {
+    const pushSubscription = {
+      endpoint,
+      keys: {
+        p256dh: publicKey,
+        auth: privateKey
+      }
+    }
+    return (message, options={}) => {
+      return webpush.sendNotification(pushSubscription, options)
+    }
+  }
+}
+
 exports.launch = createApplicationKey

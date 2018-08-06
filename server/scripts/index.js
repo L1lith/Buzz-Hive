@@ -1,4 +1,5 @@
 const baseScripts = require('require-directory')(module)
+const merge = require('merge-objects')
 
 async function runScripts(kind, scripts=baseScripts) {
   const output = {}
@@ -7,11 +8,11 @@ async function runScripts(kind, scripts=baseScripts) {
   for (let i = 0; i < scriptEntries.length; i++) {
     const [key, value] = scriptEntries[i]
     if (typeof value == 'object' && value !== null) {
-      Object.assign(output, await runScripts(kind, value))
+      output = merge(output, await runScripts(kind, value))
     } else if (key === kind && typeof value == 'function') {
       const functionOutput = await value()
       if (typeof functionOutput == 'object' && functionOutput !== null) {
-        Object.assign(output, functionOutput)
+        output = merge(output, functionOutput)
       }
     }
   }

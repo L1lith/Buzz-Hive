@@ -25,6 +25,7 @@
     "fs-promise": "^2.0.3",
     "function-arguments": "^1.0.8",
     "helmet": "^3.13.0",
+    "merge-objects": "^1.0.5",
     "mongoose": "^5.2.6",
     "quarry-dns": "^0.6.2",
     "require-directory": "^2.1.1",
