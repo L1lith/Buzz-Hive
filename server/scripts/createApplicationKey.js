@@ -3,7 +3,7 @@ const {access, readFile, writeFile} = require('fs-promise')
 const {resolve} = require('path')
 const {supportEmail} = require('../config.json')
 
-const keyPath = resolve(__dirname, '../applicationKeys.json')
+const keyPath = resolve(__dirname, '../pushApplicationKeys.json')
 
 async function createApplicationKey() {
   let vapidKeys = null
@@ -12,7 +12,7 @@ async function createApplicationKey() {
     vapidKeys = JSON.parse(await readFile(keyPath))
   } catch(err) {
     vapidKeys = webpush.generateVAPIDKeys()
-    await writeFile(keyPath, JSON.stringify(vapidKeys))
+    await writeFile(keyPath, JSON.stringify(vapidKeys, null, 2))
   }
   webpush.setVapidDetails('mailto:' + supportEmail, vapidKeys.publicKey, vapidKeys.privateKey)
 }

@@ -14,7 +14,6 @@ const port = require('./config.json').port || 8040
 async function createServer() {
   const server = express()
   const data = await runScripts('launch')
-  console.log({data})
   // Configure server
   server.enable('trust proxy')
 
