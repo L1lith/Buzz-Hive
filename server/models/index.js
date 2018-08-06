@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const schemas = require('require-directory')(module, {recurse: false})
 const S = require('string')
-const mongoOptions = require('../config').mongo
+const mongoOptions = require('../config.json').mongo
 const mongoURI = "mongodb://" + mongoOptions.host + ":" + mongoOptions.port + '/' + mongoOptions.db
 delete mongoOptions.host
 delete mongoOptions.port

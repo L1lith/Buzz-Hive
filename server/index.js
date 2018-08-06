@@ -6,13 +6,15 @@ const helmet = require('helmet')
 const setupRoutes = require('./routes')
 const createModels = require('./models')
 const getFunctions = require('./functions')
+const runScripts = require('./scripts')
 const {resolve} = require('path')
 
-const port = require('./config').port || 8040
+const port = require('./config.json').port || 8040
 
 async function createServer() {
   const server = express()
-  const data = {}
+  const data = await runScripts('launch')
+  console.log({data})
   // Configure server
   server.enable('trust proxy')
 
