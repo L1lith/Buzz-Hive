@@ -2,7 +2,7 @@ const baseScripts = require('require-directory')(module)
 const merge = require('merge-objects')
 
 async function runScripts(kind, scripts=baseScripts) {
-  const output = {}
+  let output = {}
   if (typeof scripts != 'object' || scripts === null) return output
   const scriptEntries = Object.entries(scripts)
   for (let i = 0; i < scriptEntries.length; i++) {

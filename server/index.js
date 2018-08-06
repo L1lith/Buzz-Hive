@@ -8,19 +8,20 @@ const createModels = require('./models')
 const getFunctions = require('./functions')
 const runScripts = require('./scripts')
 const {resolve} = require('path')
+const merge = require('merge-objects')
 
 const port = require('./config.json').port || 8040
 
 async function createServer() {
   const server = express()
-  const data = await runScripts('launch')
+  let data = await runScripts('launch')
   // Configure server
   server.enable('trust proxy')
 
   // Prepare Server
   data.models = await createModels()
-  data.functions = await getFunctions(data)
-  data.middleware = data.functions.middleware
+  data = merge(data, {functions: await getFunctions(data)})
+  data = merge(data, {middleware: data.functions.middleware || {}})
 
   // Setup Middleware
   server.use(helmet())
