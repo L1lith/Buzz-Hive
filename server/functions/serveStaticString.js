@@ -5,7 +5,7 @@ function serveStaticString(string, lastModified) {
   const lastModifiedUTC = lastModified.toUTCString()
   if (lastModified) {
     return (req, res) => {
-      res.set('Last-Modified', lastModifiedUTC)
+      if (lastModified) res.set('Last-Modified', lastModifiedUTC)
       let ifModified = req.headers["if-modified-since"]
       if (!ifModified) return res.send(string)
       ifModified = new Date(ifModified)
