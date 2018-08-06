@@ -1,6 +1,6 @@
 function vapidKey(router, {functions, vapidKeys}) {
   const {publicKey, modified} = vapidKeys
-  router.get('/vapidkey', functions.serveStaticString(publicKey, modified))
+  router.get('/vapidKey', functions.serveStaticString(publicKey, modified))
 }
 
 module.exports = vapidKey
