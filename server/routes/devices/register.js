@@ -1,16 +1,15 @@
 const {sandhandsExpress} = require('sandhands')
 const UAParser = require('ua-parser-js')
 const url = require('url')
-const {allowedPushURLHostnames} = require('../../config.json')
 
-function registerDevice(router, {middleware}) {
+function registerDevice(router, {middleware, functions}) {
+  const {validPushURL} = functions
   router.post('/register', middleware.authenticate({getUser: true}), sandhandsExpress({
     pushURL: String
   }), (req, res, next) => {
     const {devices} = req.user
     const {pushURL} = req.body
-    const pushURLParsed = url.parse(pushURL)
-    if (!allowedPushURLHostnames.includes(pushURLParsed.hostname)) return res.sendStatus(400)
+    if (!validPushURL(pushURL)) return res.sendStatus(400)
     let deviceName = null
     if (req.headers['user-agent']) {
       const UA = new UAParser(req.headers['user-agent'])
@@ -21,7 +20,7 @@ function registerDevice(router, {middleware}) {
     if (devices.filter(device => device.name === deviceName).length > 0) return next(new Error("Duplicate Device Name"))
     req.user.devices.push({name: deviceName, pushURL})
     req.user.save(err => {
-      if (err) next(err)
+      if (err) return next(err)
       res.json({deviceName})
     })
   })

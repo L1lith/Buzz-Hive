@@ -5,14 +5,23 @@ async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return
   const {serviceWorker} = navigator
   const registration = await serviceWorker.register('/worker.js')
-  let pushSubscription = await registration.pushManager.getSubscription()
 
+  let pushSubscription = await registration.pushManager.getSubscription()
+  const vapidKeyRequest = await fetchIfModified('/vapidKey')
+  const vapidKey = urlBase64ToUint8Array(vapidKeyRequest.value)
+  if (vapidKeyRequest.modified === true && pushSubscription) {
+    await registration.pushManager.unsubscribe()
+    pushSubscription = null
+  }
   if (!pushSubscription) {
-    const vapidKey = urlBase64ToUint8Array((await fetchIfModified('/vapidKey')).value)
     pushSubscription = await registration.pushManager.subscribe({applicationServerKey: vapidKey, userVisibleOnly: true})
-    const response = await fetch('/devices/register', {statusRange: 200, method: 'post', body: {pushURL: pushSubscription.endpoint}})
-    const {deviceName} = await response.json()
-    localStorage.deviceName = deviceName
+    if (localStorage.deviceName) {
+      const response = await fetch('/devices/update', {statusRange: 200, method: 'patch', body: {pushURL: pushSubscription.endpoint, deviceName: localStorage.deviceName}})
+    } else {
+      const response = await fetch('/devices/register', {statusRange: 200, method: 'post', body: {pushURL: pushSubscription.endpoint}})
+      const {deviceName} = await response.json()
+      localStorage.deviceName = deviceName
+    }
   }
 }
 
