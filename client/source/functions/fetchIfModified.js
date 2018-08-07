@@ -34,4 +34,4 @@ function cacheResponse(cachePath, value) {
   localStorage[cachePath] = JSON.stringify(cache)
 }
 
-module.exports = fetchVapidKey
+module.exports = fetchIfModified

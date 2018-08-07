@@ -1,1 +1,1 @@
-console.log(self.pushManager)
+console.log('hi')
