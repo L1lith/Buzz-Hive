@@ -21,6 +21,7 @@ function notification(router, {middleware, functions}) {
       })
       res.sendStatus(200)
     } else {
+      if (devices.length < 1) return res.status(400).send('No Registered Devices')
       devices.forEach(device => {
         sendMessageToDevice(device, message, functions.createNotificationSender)
       })
