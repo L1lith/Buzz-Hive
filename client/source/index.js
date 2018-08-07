@@ -1,4 +1,4 @@
 const registerServiceWorker = require('./registerServiceWorker')
-require('./functions/fetchSupportJSON')()
+require('./functions/customFetchBehavior')()
 
 registerServiceWorker().then(()=>{}).catch(console.log)

@@ -6,11 +6,13 @@ async function registerServiceWorker() {
   const {serviceWorker} = navigator
   const registration = await serviceWorker.register('/worker.js')
   let pushSubscription = await registration.pushManager.getSubscription()
-  
+
   if (!pushSubscription) {
     const vapidKey = urlBase64ToUint8Array((await fetchIfModified('/vapidKey')).value)
     pushSubscription = await registration.pushManager.subscribe({applicationServerKey: vapidKey, userVisibleOnly: true})
-    await fetch('/devices/register', {method: 'post', body: {pushURL: pushSubscription.endpoint}})
+    const response = await fetch('/devices/register', {statusRange: 200, method: 'post', body: {pushURL: pushSubscription.endpoint}})
+    const {deviceName} = await response.json()
+    localStorage.deviceName = deviceName
   }
 }
 
