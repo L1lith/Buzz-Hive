@@ -17,18 +17,20 @@ function notification(router, {middleware, functions}) {
         requestedDevices[i] = device
       }
       requestedDevices.forEach(device => {
-        sendMessageToDevice(device, message)
+        sendMessageToDevice(device, message, functions.createNotificationSender)
       })
+      res.sendStatus(200)
     } else {
       devices.forEach(device => {
-        sendMessageToDevice(device, message)
+        sendMessageToDevice(device, message, functions.createNotificationSender)
       })
+      res.sendStatus(200)
     }
   })
 }
 
-function sendMessageToDevice(device, message) {
-
+function sendMessageToDevice(device, message, createNotificationSender) {
+  createNotificationSender(device.pushURL)(message)
 }
 
 module.exports = notification
