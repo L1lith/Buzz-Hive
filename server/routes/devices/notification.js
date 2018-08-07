@@ -5,7 +5,7 @@ function notification(router, {middleware, functions}) {
     message: String,
     //title: String,
     devices: {_: [String], minLength: 1, optional: true}
-  }), (req, res) => {
+  }), async (req, res, next) => {
     const {username, devices} = req.user
     const {message} = req.body
     const requestedDevices = req.body
@@ -16,22 +16,30 @@ function notification(router, {middleware, functions}) {
         if (!device) return res.status(404).send(`Device "${deviceName}" Not Found`)
         requestedDevices[i] = device
       }
-      requestedDevices.forEach(device => {
-        sendMessageToDevice(device, message, functions.createNotificationSender)
+      await Promise.all(requestedDevices.map(device => {
+        return sendMessageToDevice(device.pushURL, message, functions.createNotificationSender)
+      })).then(results=>{
+        console.log(results)
+        res.sendStatus(200)
+      }).catch(err => {
+        next(err)
       })
-      res.sendStatus(200)
     } else {
       if (devices.length < 1) return res.status(400).send('No Registered Devices')
-      devices.forEach(device => {
-        sendMessageToDevice(device, message, functions.createNotificationSender)
+      await Promise.all(devices.map(device => {
+        return sendMessageToDevice(device.pushURL, message, functions.createNotificationSender)
+      })).then(results=>{
+        console.log(results)
+        res.sendStatus(200)
+      }).catch(err => {
+        next(err)
       })
-      res.sendStatus(200)
     }
   })
 }
 
-function sendMessageToDevice(device, message, createNotificationSender) {
-  createNotificationSender(device.pushURL)(message)
+function sendMessageToDevice(pushURL, message, createNotificationSender) {
+  return createNotificationSender(pushURL)(message)
 }
 
 module.exports = notification
