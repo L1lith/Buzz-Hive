@@ -6,7 +6,7 @@ async function registerServiceWorker() {
   const {serviceWorker} = navigator
   const registration = await serviceWorker.register('/worker.js')
   let pushSubscription = await registration.pushManager.getSubscription()
-  console.log(registration)
+  
   if (!pushSubscription) {
     const vapidKey = urlBase64ToUint8Array((await fetchIfModified('/vapidKey')).value)
     pushSubscription = await registration.pushManager.subscribe({applicationServerKey: vapidKey, userVisibleOnly: true})
