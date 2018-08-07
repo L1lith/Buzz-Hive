@@ -1,14 +1,13 @@
 const {sandhandsExpress} = require('sandhands')
 
 function notification(router, {middleware, functions}) {
-  console.log({functions})
   router.post('/notification', middleware.authenticate({getUser: true}), sandhandsExpress({
     message: String,
-    title: String,
+    //title: String,
     devices: {_: [String], minLength: 1, optional: true}
   }), (req, res) => {
     const {username, devices} = req.user
-    const {message, title} = req.body
+    const {message} = req.body
     const requestedDevices = req.body
     if (requestedDevices && requestedDevices.length > 0) {
       for (let i = 0; i < requestedDevices.length; i++) {
@@ -17,8 +16,13 @@ function notification(router, {middleware, functions}) {
         if (!device) return res.status(404).send(`Device "${deviceName}" Not Found`)
         requestedDevices[i] = device
       }
+      requestedDevices.forEach(device => {
+        sendMessageToDevice(device, message)
+      })
     } else {
-
+      devices.forEach(device => {
+        sendMessageToDevice(device, message)
+      })
     }
   })
 }
