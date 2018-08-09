@@ -24,11 +24,12 @@ async function registerServiceWorker() {
     } else {
       await registerDevice(pushSubscription.endpoint)
     }
-  }
-  try {
-    await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceName), {statusRange: 200, method: 'post', body: {pushURL: pushSubscription.endpoint}})
-  } catch(err) {
-    await registerDevice(pushSubscription.endpoint)
+  } else {
+    try {
+      await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceName), {statusRange: 200, method: 'post', body: {pushURL: pushSubscription.endpoint}})
+    } catch(err) {
+      await registerDevice(pushSubscription.endpoint)
+    }
   }
 }
 
