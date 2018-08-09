@@ -1,5 +1,13 @@
 function validDevice(router, {middleware}) {
-  router.get('/valid', middleware.authenticate({getUser: true}), )
+  router.post('/valid', sandhandsExpress({
+    pushURL: String
+  }) middleware.authenticate({getUser: true}), middleware.getDevices({singleDevice: true}), (req, res) => {
+    if (req.body.pushURL === req.device.pushURL) {
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(406)
+    }
+  })
 }
 
 module.exports = validDevice
