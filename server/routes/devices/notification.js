@@ -6,6 +6,7 @@ function notification(router, {middleware, functions}) {
     //title: String,
     devices: {_: [String], minLength: 1, optional: true}
   }), middleware.getDevices({allowAllDevices: true}), async (req, res, next) => {
+    console.log(req.devices)
     const {username, devices} = req.user
     const {message} = req.body
     const requestedDevices = req.body

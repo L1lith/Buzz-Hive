@@ -16,7 +16,8 @@ function getDevices(options={}) {
     return (req, res, next) => {
       if (req.user === undefined) return next(new Error('Missing Req User'))
       if (req.user.devices.length < 1) return res.status(400).send('No Registered Devices')
-      const {devices} = req.query
+      let {devices} = req.query
+      if (typeof devices == 'string') devices = devices.split(',')
       if (devices === undefined && allowAllDevices === true) {
         req.devices = req.user.devices
         return next()
