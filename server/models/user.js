@@ -42,7 +42,7 @@ module.exports = {
   },
   devices: {
     type: [{
-      name: {type: String, unique: true},
+      name: String,
       pushURL: String
     }],
     required: false

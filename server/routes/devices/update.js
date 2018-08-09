@@ -1,3 +1,5 @@
+const {sandhandsExpress} = require('sandhands')
+
 function updateDevice(router, {middleware}) {
   router.patch('/update', middleware.authenticate({getUser: true}), sandhandsExpress({
     pushURL: {_: String, optional: true},

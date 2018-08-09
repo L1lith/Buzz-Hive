@@ -6,7 +6,7 @@ self.addEventListener('push', event => {
   const title = 'Push Notice';
   const options = {
     body: 'Yay it works.',
-  };
+  }
 
   event.waitUntil(self.registration.showNotification(title, options))
 })
