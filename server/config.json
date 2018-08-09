@@ -7,5 +7,5 @@
     "useNewUrlParser": true
   },
   "supportEmail": "example@buzzhive.net",
-  "allowedPushURLHostnames": ["fcm.googleapis.com"]
+  "allowedPushURLHostnames": ["fcm.googleapis.com", "updates.push.services.mozilla.com"]
 }
