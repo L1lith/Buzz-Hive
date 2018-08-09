@@ -16,13 +16,26 @@ async function registerServiceWorker() {
   if (!pushSubscription) {
     pushSubscription = await registration.pushManager.subscribe({applicationServerKey: vapidKey, userVisibleOnly: true})
     if (localStorage.deviceName) {
-      await fetch('/devices/update', {statusRange: 200, method: 'patch', body: {pushURL: pushSubscription.endpoint, deviceName: localStorage.deviceName}})
+      try {
+        await fetch('/devices/update', {statusRange: 200, method: 'patch', body: {pushURL: pushSubscription.endpoint, deviceName: localStorage.deviceName}})
+      } catch(err) {
+        await registerDevice(pushSubscription.endpoint)
+      }
     } else {
-      const response = await fetch('/devices/register', {statusRange: 200, method: 'post', body: {pushURL: pushSubscription.endpoint}})
-      const {deviceName} = await response.json()
-      localStorage.deviceName = deviceName
+      await registerDevice(pushSubscription.endpoint)
     }
   }
+  try {
+    await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceName), {statusRange: 200, method: 'post', body: {pushURL: pushSubscription.endpoint}})
+  } catch(err) {
+    await registerDevice(pushSubscription.endpoint)
+  }
+}
+
+async function registerDevice(pushURL) {
+  const response = await fetch('/devices/register', {statusRange: 200, method: 'post', body: {pushURL}})
+  const {deviceName} = await response.json()
+  localStorage.deviceName = deviceName
 }
 
 module.exports = registerServiceWorker

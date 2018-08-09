@@ -7,7 +7,9 @@ function getDevices(options={}) {
       if (req.user === undefined) return next(new Error('Missing Req User'))
       if (req.user.devices.length < 1) return res.status(400).send('No Registered Devices')
       let {device} = req.query
-      device = findDevices(req.user.devices, device)
+      const queryError = details(device, String)
+      if (queryError !== null) return res.status(400).json(queryError)
+      device = findDevice(req.user.devices, device)
       if (!device) return res.status(404).send('Device Not Found')
       req.device = device
       next()
