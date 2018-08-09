@@ -1,3 +1,4 @@
+const url = require('url')
 const {allowedPushURLHostnames} = require('../config.json')
 
 function validatePushURL(pushURL) {

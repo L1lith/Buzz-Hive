@@ -1,6 +1,5 @@
 const {sandhandsExpress} = require('sandhands')
 const UAParser = require('ua-parser-js')
-const url = require('url')
 
 function registerDevice(router, {middleware, functions}) {
   const {validPushURL} = functions
