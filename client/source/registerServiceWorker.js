@@ -13,7 +13,7 @@ async function registerServiceWorker() {
     await registration.pushManager.unsubscribe()
     pushSubscription = null
   }
-  if (!pushSubscription) {
+  if (!pushSubscription || !localStorage.deviceName) {
     pushSubscription = await registration.pushManager.subscribe({applicationServerKey: vapidKey, userVisibleOnly: true})
     if (localStorage.deviceName) {
       try {
