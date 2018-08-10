@@ -33,6 +33,7 @@ function createNotificationSender(vapidKeys) {
       }
     }
     return (message, options={}) => {
+      console.log([pushSubscription, message, options])
       return webpush.sendNotification(pushSubscription, message, options)
     }
   }
