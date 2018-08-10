@@ -1,4 +1,5 @@
 const {details} = require('sandhands')
+const {ObjectId} = require('mongoose').Types
 
 function getDevices(data) {
   const {Device} = data.models
@@ -10,8 +11,14 @@ function getDevices(data) {
         if (req.user.devices.length < 1) return res.status(400).send('No Registered Devices')
         let {device} = req.query
         const queryError = details(device, String)
-        if (queryError !== null) return res.status(400).json(queryError)
-        device = await findDevice(Device, req.user.username, device)
+        if (queryError !== null) return res.status(400).send(queryError)
+        console.log('a')
+        try {
+          device = await findDevice(Device, req.user.username, device)
+        } catch(err) {
+          return next(err)
+        }
+        console.log('b')
         if (!device) return res.status(404).send('Device Not Found')
         req.device = device
         next()
@@ -22,7 +29,11 @@ function getDevices(data) {
         let {devices} = req.query
         if (typeof devices == 'string') devices = devices.split(',')
         if (devices === undefined && allowAllDevices === true) {
-          devices = await findDevice(Device, req.user.username)
+          try {
+            devices = await findDevice(Device, req.user.username)
+          } catch(err) {
+            return next(err)
+          }
           if (devices.length < 1) return res.status(400).send('No Registered Devices')
           req.devices = devices
           return next()
@@ -30,8 +41,12 @@ function getDevices(data) {
         const queryError = details(devices, [String])
         if (queryError !== null) return res.status(400).json(queryError)
         for (let i = 0; i < devices.length; i++) {
-           devices[i] = await findDevice(Device, req.user.username, devices[i])
-           if (!devices[i]) return res.status(404).send('Device Not Found')
+            try {
+              devices[i] = await findDevice(Device, req.user.username, devices[i])
+            } catch(err) {
+              return next(err)
+            }
+            if (!devices[i]) return res.status(404).send('Device Not Found')
         }
         req.devices = devices
         next()
@@ -42,7 +57,7 @@ function getDevices(data) {
 
 function findDevice(devices, username, id) {
   if (typeof id == 'string') {
-    return devices.findOne({owner: username, _id: id})
+    return devices.findOne({owner: username, _id: new ObjectId(id)})
   } else {
     return devices.find({owner: username})
   }
