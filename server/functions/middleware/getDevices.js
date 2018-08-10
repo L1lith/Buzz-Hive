@@ -12,13 +12,11 @@ function getDevices(data) {
         let {device} = req.query
         const queryError = details(device, String)
         if (queryError !== null) return res.status(400).send(queryError)
-        console.log('a')
         try {
           device = await findDevice(Device, req.user.username, device)
         } catch(err) {
           return next(err)
         }
-        console.log('b')
         if (!device) return res.status(404).send('Device Not Found')
         req.device = device
         next()
@@ -57,7 +55,7 @@ function getDevices(data) {
 
 function findDevice(devices, username, id) {
   if (typeof id == 'string') {
-    return devices.findOne({owner: username, _id: new ObjectId(id)})
+    return devices.findOne({owner: username, _id: id})
   } else {
     return devices.find({owner: username})
   }
