@@ -11,8 +11,7 @@ module.exports = {
   },
   name: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   createdAt: {
     type: Date,

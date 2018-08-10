@@ -19,7 +19,7 @@ function registerDevice(router, {middleware, functions, models}) {
     const device = new Device({owner: req.user.username, name: deviceName, pushURL})
     device.save(err => {
       if (err) return next(err)
-      res.json({deviceName})
+      res.json({name: deviceName, id: device._id})
     })
   })
 }

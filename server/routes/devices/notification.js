@@ -3,7 +3,6 @@ const {sandhandsExpress} = require('sandhands')
 function notification(router, {middleware, functions}) {
   router.post('/notification', middleware.authenticate({getUser: true}), sandhandsExpress({
     message: String,
-    //title: String,
     devices: {_: [String], minLength: 1, optional: true}
   }), middleware.getDevices({allowAllDevices: true}), async (req, res, next) => {
     const {username, devices} = req.user

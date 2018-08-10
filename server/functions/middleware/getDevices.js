@@ -40,9 +40,9 @@ function getDevices(data) {
   }
 }
 
-function findDevice(devices, username, devicename) {
-  if (devicename) {
-    return devices.findOne({owner: username, name: devicename})
+function findDevice(devices, username, id) {
+  if (typeof id == 'string') {
+    return devices.findOne({owner: username, _id: id})
   } else {
     return devices.find({owner: username})
   }
