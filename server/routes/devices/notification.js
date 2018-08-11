@@ -19,7 +19,6 @@ function notification(router, {middleware, functions}) {
     await Promise.all(devices.map(device => {
       return sendNotification(device.subscription, notification)
     })).then(results=>{
-      console.log(results)
       res.sendStatus(200)
     }).catch(err => {
       next(err)
