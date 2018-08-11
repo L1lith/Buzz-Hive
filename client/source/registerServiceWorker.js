@@ -1,5 +1,7 @@
-const fetchIfModified = require('./functions/fetchIfModified')
-const urlBase64ToUint8Array = require('./functions/urlBase64ToUint8Array')
+import fetchIfModified from './functions/fetchIfModified'
+import urlBase64ToUint8Array from './functions/urlBase64ToUint8Array'
+import removeMissingProperties from './functions/removeMissingProperties'
+
 
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return
@@ -17,7 +19,7 @@ async function registerServiceWorker() {
     pushSubscription = await registration.pushManager.subscribe({applicationServerKey: vapidKey, userVisibleOnly: true})
     if (localStorage.deviceId) {
       try {
-        await fetch('/devices/update?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'patch', body: pushSubscription})
+        await fetch('/devices/update?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'put', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
       } catch(err) {
         await registerDevice(pushSubscription)
       }
@@ -26,7 +28,7 @@ async function registerServiceWorker() {
     }
   } else {
     try {
-      await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'post', body: pushSubscription})
+      await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'post', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
     } catch(err) {
       await registerDevice(pushSubscription)
     }
@@ -34,10 +36,12 @@ async function registerServiceWorker() {
 }
 
 async function registerDevice(pushSubscription) {
+  pushSubscription = removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))
+  console.log(pushSubscription)
   const response = await fetch('/devices/register', {statusRange: 200, method: 'post', body: pushSubscription})
   const {name, id} = await response.json()
   localStorage.deviceName = name
   localStorage.deviceId = id
 }
 
-module.exports = registerServiceWorker
+export default registerServiceWorker

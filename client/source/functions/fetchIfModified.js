@@ -34,4 +34,4 @@ function cacheResponse(cachePath, value) {
   localStorage[cachePath] = JSON.stringify(cache)
 }
 
-module.exports = fetchIfModified
+export default fetchIfModified

@@ -23,4 +23,4 @@ function customFetchBehavior() {
 }
 }
 
-module.exports = customFetchBehavior
+export default customFetchBehavior

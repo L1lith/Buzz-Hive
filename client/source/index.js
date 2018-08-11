@@ -1,4 +1,6 @@
-const registerServiceWorker = require('./registerServiceWorker')
-require('./functions/customFetchBehavior')()
+import registerServiceWorker from './registerServiceWorker'
+import setupCustomFetchBehavior from './functions/customFetchBehavior'
+
+setupCustomFetchBehavior()
 
 registerServiceWorker().then(()=>{}).catch(console.log)

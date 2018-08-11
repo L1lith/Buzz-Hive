@@ -13,4 +13,4 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray
 }
 
-module.exports = urlBase64ToUint8Array
+export default urlBase64ToUint8Array
