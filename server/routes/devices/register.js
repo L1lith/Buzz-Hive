@@ -2,14 +2,15 @@ const UAParser = require('ua-parser-js')
 
 function registerDevice(router, {middleware, functions, models}) {
   const {Device} = models
-  const {validPushURL} = functions
+  const {validatePushURL} = functions
   router.post('/register',
     middleware.authenticate({getUser: true}),
     middleware.pushSubscriptionBody,
       (req, res, next) => {
 
     const {endpoint} = req.body
-    if (!validPushURL(endpoint)) return res.sendStatus(400).send('Malformed Push URL')
+    const pushURLError = validatePushURL(endpoint)
+    if (pushURLError) return res.status(400).send(pushURLError)
     let deviceName = null
     if (req.headers['user-agent']) {
       const UA = new UAParser(req.headers['user-agent'])

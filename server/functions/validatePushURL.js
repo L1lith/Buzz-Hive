@@ -3,9 +3,9 @@ const {allowedPushURLHostnames} = require('../config.json')
 
 function validatePushURL(pushURL) {
   const pushURLParsed = url.parse(pushURL)
-  console.log(pushURLParsed)
-  if (!allowedPushURLHostnames.includes(pushURLParsed.hostname)) return false
-  return true
+  if (!allowedPushURLHostnames.includes(pushURLParsed.hostname)) return 'Invalid Origin'
+  if (pushURLParsed.protocol !== 'https:') return 'Invalid Protocol'
+  return null
 }
 
 module.exports = validatePushURL

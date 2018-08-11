@@ -9,3 +9,5 @@ function unregisterDevice(router, {middleware}) {
     })
   })
 }
+
+module.exports = unregisterDevice

@@ -15,13 +15,17 @@ async function registerServiceWorker() {
     pushSubscription = null
   }
   if (!pushSubscription) pushSubscription = await registration.pushManager.subscribe()
-  if ((await validDevice(pushSubscription)) !== true) {
+
+  const validity = await validDevice(pushSubscription)
+  if (validity === 'invalid') {
     try {
       await updateDevice(pushSubscription)
     } catch(err) {
       await unregisterDevice()
       await registerDevice(pushSubscription)
     }
+  } else if (validity === 'not found') {
+    await registerDevice(pushSubscription)
   }
 }
 
@@ -33,11 +37,15 @@ async function registerDevice(pushSubscription) {
   localStorage.deviceId = id
 }
 async function validDevice(pushSubscription) {
-  try {
-    await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'post', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
-    return true
-  } catch(err) {
-    return false
+  const response = await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceId), {method: 'post', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
+  if (Math.floor(response.status / 100) === 2) {
+    return 'valid'
+  } else if (response.status === 404) {
+    return 'not found'
+  } else if (response.status === 409) {
+    return 'invalid'
+  } else {
+    throw new Error('Unexpected Status Code ' + response.status)
   }
 }
 function updateDevice(pushSubscription) {
