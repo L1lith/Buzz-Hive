@@ -1,11 +1,7 @@
-console.log("Service Worker Running")
 self.addEventListener('push', event => {
-  console.log('[Service Worker] Push Received.')
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`)
-
-  const title = 'Push Notice'
+  const title = 'Buzz Hive'
   const options = {
-    body: 'Yay it works.',
+    body: event.data.text(),
   }
 
   event.waitUntil(self.registration.showNotification(title, options))
