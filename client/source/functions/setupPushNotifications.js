@@ -3,20 +3,17 @@ import urlBase64ToUint8Array from './functions/urlBase64ToUint8Array'
 import removeMissingProperties from './functions/removeMissingProperties'
 
 
-async function registerServiceWorker() {
-  if (!('serviceWorker' in navigator)) return
-  const {serviceWorker} = navigator
-  const registration = await serviceWorker.register('/worker.js')
-  let pushSubscription = await registration.pushManager.getSubscription()
+async function setupPushNotifications(worker) {
+  let pushSubscription = await worker.pushManager.getSubscription()
   const vapidKeyRequest = await fetchIfModified('/vapidKey')
   const vapidKey = urlBase64ToUint8Array(vapidKeyRequest.value)
   if (!localStorage.deviceId) {
     if (pushSubscription) await pushSubscription.unsubscribe()
-    await registerDevice(await subscribe(registration, vapidKey))
+    await registerDevice(await subscribe(worker, vapidKey))
     return
   } else if (vapidKeyRequest.modified === true || !pushSubscription) {
     if (pushSubscription) await pushSubscription.unsubscribe()
-    await setSubscription(await subscribe(registration, vapidKey))
+    await setSubscription(await subscribe(worker, vapidKey))
   } else {
     const validity = await validDevice(pushSubscription)
     if (validity === 'invalid') {
@@ -25,10 +22,11 @@ async function registerServiceWorker() {
       await registerDevice(pushSubscription)
     }
   }
+  return {pushSubscription, vapidKey, id: localStorage.deviceId, name: localStorage.deviceName}
 }
 
-function subscribe(registration, vapidKey) {
-  return registration.pushManager.subscribe({
+function subscribe(worker, vapidKey) {
+  return worker.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: vapidKey
   })
@@ -72,4 +70,4 @@ async function unregisterDevice() {
   delete localStorage[deviceName]
 }
 
-export default registerServiceWorker
+export default setupPushNotifications
