@@ -14,21 +14,12 @@ async function registerServiceWorker() {
     await registration.pushManager.unsubscribe()
     pushSubscription = null
   }
-  if (!pushSubscription || !localStorage.deviceId) {
-    pushSubscription = await registration.pushManager.subscribe({applicationServerKey: vapidKey, userVisibleOnly: true})
-    if (localStorage.deviceId) {
-      try {
-        await fetch('/devices/update?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'put', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
-      } catch(err) {
-        await registerDevice(pushSubscription)
-      }
-    } else {
-      await registerDevice(pushSubscription)
-    }
-  } else {
+  if (!pushSubscription) pushSubscription = await registration.pushManager.subscribe()
+  if ((await validDevice(pushSubscription)) !== true) {
     try {
-      await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'post', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
+      await updateDevice(pushSubscription)
     } catch(err) {
+      await unregisterDevice()
       await registerDevice(pushSubscription)
     }
   }
@@ -40,6 +31,22 @@ async function registerDevice(pushSubscription) {
   const {name, id} = await response.json()
   localStorage.deviceName = name
   localStorage.deviceId = id
+}
+async function validDevice(pushSubscription) {
+  try {
+    await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'post', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
+    return true
+  } catch(err) {
+    return false
+  }
+}
+function updateDevice(pushSubscription) {
+  return fetch('/devices/update?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'put', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
+}
+async function unregisterDevice() {
+  await fetch('/devices/unregister?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'delete'})
+  localStorage.deviceId = null
+  localStorage.deviceName = null
 }
 
 export default registerServiceWorker
