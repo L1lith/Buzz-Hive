@@ -1,8 +1,17 @@
 self.addEventListener('push', event => {
-  const title = 'Buzz Hive'
-  const options = {
-    body: event.data.text(),
+  let message
+  try {
+    message = JSON.parse(event.data.text())
+  } catch(err) {
+    return
   }
-
-  event.waitUntil(self.registration.showNotification(title, options))
+  console.log({message})
+  if (typeof message !== 'object' || message === null) return
+  if (message.type === 'notification') {
+    const {title='Buzz Hive', body} = message
+    const options = {
+      body
+    }
+    event.waitUntil(self.registration.showNotification(title, options))
+  }
 })
