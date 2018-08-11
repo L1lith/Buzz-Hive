@@ -17,6 +17,10 @@ module.exports = {
           }
         },
         required: true
+      },
+      expirationTime: {
+        type: String,
+        required: false
       }
     },
     required: true

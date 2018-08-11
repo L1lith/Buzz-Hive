@@ -1,19 +1,15 @@
-const {sandhandsExpress} = require('sandhands')
 const UAParser = require('ua-parser-js')
 
 function registerDevice(router, {middleware, functions, models}) {
   const {Device} = models
   const {validPushURL} = functions
-  router.post('/register', middleware.authenticate({getUser: true}), sandhandsExpress({
-    endpoint: String,
-    keys: {
-      auth: String,
-      p256dh: String
-    }
-  }), (req, res, next) => {
+  router.post('/register',
+    middleware.authenticate({getUser: true}),
+    middleware.pushSubscriptionBody,
+      (req, res, next) => {
 
     const {endpoint} = req.body
-    if (!validPushURL(endpoint)) return res.sendStatus(400)
+    if (!validPushURL(endpoint)) return res.sendStatus(400).send('Malformed Push URL')
     let deviceName = null
     if (req.headers['user-agent']) {
       const UA = new UAParser(req.headers['user-agent'])
