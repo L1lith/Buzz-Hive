@@ -5,10 +5,15 @@ function registerDevice(router, {middleware, functions, models}) {
   const {Device} = models
   const {validPushURL} = functions
   router.post('/register', middleware.authenticate({getUser: true}), sandhandsExpress({
-    pushURL: String
+    endpoint: String,
+    keys: {
+      auth: String,
+      p256dh: String
+    }
   }), (req, res, next) => {
-    const {pushURL} = req.body
-    if (!validPushURL(pushURL)) return res.sendStatus(400)
+
+    const {endpoint} = req.body
+    if (!validPushURL(endpoint)) return res.sendStatus(400)
     let deviceName = null
     if (req.headers['user-agent']) {
       const UA = new UAParser(req.headers['user-agent'])
@@ -16,7 +21,7 @@ function registerDevice(router, {middleware, functions, models}) {
     } else {
       deviceName = "Unknown Device "+Math.random().toString().substring(2,6)
     }
-    const device = new Device({owner: req.user.username, name: deviceName, pushURL})
+    const device = new Device({owner: req.user.username, name: deviceName, subscription: req.body})
     device.save(err => {
       if (err) return next(err)
       res.json({name: deviceName, id: device._id})

@@ -19,23 +19,14 @@ async function createApplicationKey() {
     vapidKeys.modified = new Date()
   }
   webpush.setVapidDetails('mailto:' + supportEmail, vapidKeys.publicKey, vapidKeys.privateKey)
-  return {vapidKeys, functions: {createNotificationSender: createNotificationSender(vapidKeys)}}
+  return {vapidKeys, functions: {sendNotification: createNotificationSender(vapidKeys)}}
 }
 
 function createNotificationSender(vapidKeys) {
   const {publicKey, privateKey} = vapidKeys
-  return endpoint => {
-    const pushSubscription = {
-      endpoint,
-      keys: {
-        p256dh: publicKey,
-        auth: privateKey
-      }
-    }
-    return (message, options={}) => {
-      console.log([pushSubscription, message, options])
-      return webpush.sendNotification(pushSubscription, message, options)
-    }
+  return (subscription, message, options) => {
+    //console.log([pushSubscription, message, options])
+    return webpush.sendNotification(subscription, message, options)
   }
 }
 

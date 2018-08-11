@@ -1,7 +1,24 @@
 module.exports = {
-  pushURL: {
-    type: String,
-    unique: true,
+  subscription: {
+    type: {
+      endpoint: {
+        type: String,
+        required: true
+      },
+      keys: {
+        type: {
+          auth: {
+            type: String,
+            required: true,
+          },
+          p256dh: {
+            type: String,
+            required: true
+          }
+        },
+        required: true
+      }
+    },
     required: true
   },
   owner: {

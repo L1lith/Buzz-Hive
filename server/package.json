@@ -19,6 +19,7 @@
   "dependencies": {
     "bcrypt": "^3.0.0",
     "cookie-parser": "^1.4.3",
+    "deep-equal": "^1.0.1",
     "express": "^4.16.3",
     "express-http-auth": "^0.1.0",
     "express-rate-limit": "^2.12.1",
