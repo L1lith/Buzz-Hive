@@ -1,4 +1,5 @@
 const {sandhandsExpress} = require('sandhands')
+const webpush = require('web-push')
 
 function notification(router, {middleware, functions}) {
   const {sendNotification} = functions
@@ -17,7 +18,7 @@ function notification(router, {middleware, functions}) {
     if (req.body.hasOwnProperty('title')) notification.title = req.body.title
     notification = JSON.stringify(notification)
     await Promise.all(devices.map(device => {
-      return sendNotification(device.subscription, notification)
+      return webpush.sendNotification(device.subscription, notification)
     })).then(results=>{
       res.sendStatus(200)
     }).catch(err => {
