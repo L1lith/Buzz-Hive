@@ -1,6 +1,6 @@
-import fetchIfModified from './functions/fetchIfModified'
-import urlBase64ToUint8Array from './functions/urlBase64ToUint8Array'
-import removeMissingProperties from './functions/removeMissingProperties'
+import fetchIfModified from './fetchIfModified'
+import urlBase64ToUint8Array from './urlBase64ToUint8Array'
+import removeMissingProperties from './removeMissingProperties'
 
 
 async function setupPushNotifications(worker) {
