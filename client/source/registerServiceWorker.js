@@ -14,7 +14,7 @@ async function registerServiceWorker() {
     await registration.pushManager.unsubscribe()
     pushSubscription = null
   }
-  if (!pushSubscription) pushSubscription = await registration.pushManager.subscribe()
+  if (!pushSubscription) pushSubscription = await registration.pushManager.subscribe(vapidKey)
 
   const validity = await validDevice(pushSubscription)
   if (validity === 'invalid') {
@@ -27,6 +27,13 @@ async function registerServiceWorker() {
   } else if (validity === 'not found') {
     await registerDevice(pushSubscription)
   }
+}
+
+function subscribe(registration, vapidKey) {
+  return registration.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(vapidKey)
+  })
 }
 
 async function registerDevice(pushSubscription) {
