@@ -6,7 +6,7 @@ function updateDevice(router, {functions, middleware}) {
       (req, res) => {
     const {device} = req
 
-    const pushURLError = validatePushURL(endpoint)
+    const pushURLError = validatePushURL(req.body.endpoint)
     if (pushURLError) return res.sendStatus(400).send(pushURLError)
 
     device.subscription = req.body

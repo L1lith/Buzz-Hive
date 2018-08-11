@@ -8,7 +8,7 @@ async function fetchIfModified(url, fetchOptions={}) {
     if (response.status === 200) {
       const value = await response.text()
       cacheResponse(cachePath, value)
-      return {value, modifed: true, response}
+      return {value, modified: true, response}
     } else if (response.status === 304) {
       return {value: lastValue, modified: false, response}
     } else {

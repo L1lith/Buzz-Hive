@@ -10,29 +10,27 @@ async function registerServiceWorker() {
   let pushSubscription = await registration.pushManager.getSubscription()
   const vapidKeyRequest = await fetchIfModified('/vapidKey')
   const vapidKey = urlBase64ToUint8Array(vapidKeyRequest.value)
-  if (vapidKeyRequest.modified === true && pushSubscription) {
-    await registration.pushManager.unsubscribe()
-    pushSubscription = null
-  }
-  if (!pushSubscription) pushSubscription = await registration.pushManager.subscribe(vapidKey)
-
-  const validity = await validDevice(pushSubscription)
-  if (validity === 'invalid') {
-    try {
-      await updateDevice(pushSubscription)
-    } catch(err) {
-      await unregisterDevice()
+  if (!localStorage.deviceId) {
+    if (pushSubscription) await pushSubscription.unsubscribe()
+    await registerDevice(await subscribe(registration, vapidKey))
+    return
+  } else if (vapidKeyRequest.modified === true || !pushSubscription) {
+    if (pushSubscription) await pushSubscription.unsubscribe()
+    await setSubscription(await subscribe(registration, vapidKey))
+  } else {
+    const validity = await validDevice(pushSubscription)
+    if (validity === 'invalid') {
+      await setSubscription(pushSubscription)
+    } else if (validity === 'not found') {
       await registerDevice(pushSubscription)
     }
-  } else if (validity === 'not found') {
-    await registerDevice(pushSubscription)
   }
 }
 
 function subscribe(registration, vapidKey) {
   return registration.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(vapidKey)
+    applicationServerKey: vapidKey
   })
 }
 
@@ -55,13 +53,23 @@ async function validDevice(pushSubscription) {
     throw new Error('Unexpected Status Code ' + response.status)
   }
 }
+
+async function setSubscription(subscription) {
+  try {
+    await updateDevice(subscription)
+  } catch(err) {
+    await unregisterDevice()
+    await registerDevice(subscription)
+  }
+}
+
 function updateDevice(pushSubscription) {
   return fetch('/devices/update?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'put', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
 }
 async function unregisterDevice() {
   await fetch('/devices/unregister?device='+encodeURIComponent(localStorage.deviceId), {statusRange: 200, method: 'delete'})
-  localStorage.deviceId = null
-  localStorage.deviceName = null
+  delete localStorage[deviceId]
+  delete localStorage[deviceName]
 }
 
 export default registerServiceWorker
