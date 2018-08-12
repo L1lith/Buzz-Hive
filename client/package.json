@@ -27,6 +27,7 @@
     "babel-preset-react": "^6.24.1",
     "jabr-react": "0.0.5",
     "packenv": "^1.0.1",
-    "react": "^16.4.2"
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
   }
 }
