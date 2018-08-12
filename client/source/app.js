@@ -1,6 +1,4 @@
-import React, {Component} from 'react'
-
-class App extends Component {
+class App extends React.Component {
   render() {
     return <p>hi</p>
   }

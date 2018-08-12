@@ -31,6 +31,10 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       fetch: customFetch
+      "window.fetch" : customFetch
+    }),
+    new webpack.ProvidePlugin({
+      'React': 'react'
     })
   ]
 }
