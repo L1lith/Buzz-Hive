@@ -19,9 +19,9 @@ function login(router, {models, functions}) {
         if (valid !== true) return res.sendStatus(401)
         getSession(username, (err, token) => {
           if (err) return next(err)
-          res.cookie('username', username, {sameSite: true})
+          res.cookie('username', username, {httpOnly: true, sameSite: true})
           res.cookie('session', token, {httpOnly: true, sameSite: true})
-          res.sendStatus(200)
+          res.status(200).json({username})
         })
       })
     })

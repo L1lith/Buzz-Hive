@@ -1,4 +1,6 @@
 const {resolve} = require('path')
+const webpack = require('webpack')
+const customFetch = require('./source/functions/customFetch')
 
 module.exports = {
   entry: ['babel-polyfill', "./source/index.js"],
@@ -17,5 +19,17 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  resolve: {
+    alias: {
+      Functions: resolve(__dirname, 'source/functions/'),
+      Components: resolve(__dirname, 'source/components/'),
+      Root: resolve(__dirname, 'source/'),
+    }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      fetch: customFetch
+    })
+  ]
 }

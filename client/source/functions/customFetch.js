@@ -1,6 +1,4 @@
-function customFetchBehavior() {
-  const oldFetch = window.fetch
-  window.fetch = async (url, options={}, ...args) => {
+async function customFetch(url, options={}, ...args) {
     if (typeof options == 'object' && options !== null && typeof options.body == 'object' && options.body !== null) {
       options.body = JSON.stringify(options.body)
       if (typeof options.headers != 'object' || options.headers === null) options.headers = {}
@@ -8,7 +6,7 @@ function customFetchBehavior() {
     }
     let {statusRange, credentials} = options
     delete options.statusRange
-    const response = await oldFetch(url, options, ...args)
+    const response = await window.fetch(url, options, ...args)
     if (credentials === undefined) options.credentials = 'same-site'
     if (![null, undefined].includes(statusRange)) {
       const {status} = response
@@ -21,6 +19,5 @@ function customFetchBehavior() {
   }
   return response
 }
-}
 
-export default customFetchBehavior
+module.exports = customFetch
