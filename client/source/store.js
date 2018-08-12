@@ -1,15 +1,10 @@
 import jabr from 'jabr'
-import loadAuthentication from './functions/loadAuthentication'
 
-function createStore() {
-  const store = jabr({
-    auth: {
-      loggedIn: false,
-      username: null
-    }
-  })
-  loadAuthentication(store)
-  return store
-}
+const store = jabr({
+  auth: {
+    loggedIn: false,
+    username: null
+  }
+})
 
-export default createStore
+export default store

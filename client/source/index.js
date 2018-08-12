@@ -2,14 +2,16 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './app'
 import {Provider} from 'jabr-react'
-import createStore from './store'
+import store from 'Store'
+import loadAuthentication from 'Functions/loadAuthentication'
 
 
 function run() {
   const root = document.getElementById('root')
   if (!root) throw new Error('Root Element Not Found!')
 
-  ReactDOM.render(<Provider store={createStore()}><App/></Provider>, root)
+  ReactDOM.render(<Provider store={store}><App/></Provider>, root)
+  loadAuthentication(store)
 }
 
 window.addEventListener('load', run)

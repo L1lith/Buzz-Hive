@@ -25,6 +25,7 @@ module.exports = {
       Functions: resolve(__dirname, 'source/functions/'),
       Components: resolve(__dirname, 'source/components/'),
       Root: resolve(__dirname, 'source/'),
+      Store: resolve(__dirname, 'source/store.js')
     }
   },
   plugins: [
