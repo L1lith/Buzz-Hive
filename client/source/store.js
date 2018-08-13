@@ -2,7 +2,7 @@ import jabr from 'jabr'
 
 const store = jabr({
   auth: {
-    loggedIn: false,
+    loggedIn: null,
     username: null
   }
 })

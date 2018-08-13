@@ -11,7 +11,7 @@ function run() {
   if (!root) throw new Error('Root Element Not Found!')
 
   ReactDOM.render(<Provider store={store}><App/></Provider>, root)
-  loadAuthentication(store)
+  loadAuthentication()
 }
 
 window.addEventListener('load', run)
