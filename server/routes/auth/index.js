@@ -16,8 +16,8 @@ const shortAuthLimit = new RateLimit({
 })
 
 function auth(router) {
-  router.use(longAuthLimit)
-  router.use(shortAuthLimit)
+  router.use(/^(?!\/valid$).+/, longAuthLimit)
+  router.use(/^(?!\/valid$).+/, shortAuthLimit)
 }
 
 module.exports = auth
