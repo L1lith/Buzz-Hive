@@ -5,6 +5,8 @@ import {Provider} from 'jabr-react'
 import store from 'Store'
 import loadAuthentication from 'Functions/loadAuthentication'
 
+const stylesRequireContext = require.context('./styles', true, /\.less$/)
+stylesRequireContext.keys().forEach(stylesRequireContext)
 
 function run() {
   const root = document.getElementById('root')
