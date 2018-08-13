@@ -5,6 +5,8 @@ async function loadAuthentication() {
   try {
     response = await fetch('/auth/valid', {statusRange: 200})
   } catch(err) {
+    store.auth.loggedIn = false
+    store.auth.username = null
     return console.log(err)
   }
   const {username} = await response.json()
