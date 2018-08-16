@@ -1,23 +1,27 @@
 header.main {
-  border: 3px double black;
-  border-width: 3px 0;
+  //border: 3px double #b1b3d0;
+  //border-width: 3px 0;
   position: relative;
   height: 70px;
-  background-color: #3e3e3e;
-  color: white;
+  //background: linear-gradient(to top, #a09afd3d, #c9c9f75e);
+  color: #505094;
   line-height: 70px;
+  padding: 0 50px;
+  a {
+    text-decoration: inherit;
+  }
   & > * {
     display: inline-block;
-  }
-  & > *:first-child {
-    margin-left: 50px
   }
   .site-title {
     font-family: 'Playfair Display', serif;
   }
-  .auth {
+  .right {
     position: absolute;
-    right: 20px;
+    right: 70px;
     line-height: 70px;
+    & > *:not(:last-child) {
+      margin-right: 30px;
+    }
   }
 }

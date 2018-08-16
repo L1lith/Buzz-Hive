@@ -5,14 +5,13 @@ async function loadAuthentication() {
   try {
     response = await fetch('/auth/valid', {statusRange: 200})
   } catch(err) {
-    store.auth.loggedIn = false
-    store.auth.username = null
+    store.auth = {loggedIn: false}
     return console.log(err)
   }
   const {username} = await response.json()
+  console.log({username})
 
-  store.auth.loggedIn = true
-  store.auth.username = username
+  store.auth = {loggedIn: true, username}
 }
 
 export default loadAuthentication

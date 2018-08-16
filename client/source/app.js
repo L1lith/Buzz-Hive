@@ -5,7 +5,9 @@ class App extends React.Component {
     return (
       <div className="app">
         <Header/>
-        <p>hi</p>
+        <main className="page">
+          <p>hi</p>
+        </main>
       </div>
     )
   }
