@@ -7,9 +7,11 @@ function signup(router, {models, functions}) {
   router.post('/signup', sandhandsExpress({
     username: 'username',
     password: 'password',
-    email: 'email'
+    email: 'email',
+    displayName: 'displayName'
   }), (req, res, next) => {
-    const {username, password, email} = req.body
+    let {username, password, email, displayName} = req.body
+    displayName = displayName || username
 
     bcrypt.hash(password, 12, (err, hash) => {
       if (err) return next(err)

@@ -13,7 +13,7 @@ class Header extends React.Component {
     return (
       <header className="main">
         <h1 className="site-title"><Link to="/">Buzz Hive</Link></h1>
-        <div className="right"><Link to="/devices">Devices</Link>{this.renderAuth()}</div>
+        <div className="right">{this.renderAuth()}<Link to="/devices">Devices</Link></div>
       </header>
     )
   }

@@ -9,7 +9,6 @@ async function loadAuthentication() {
     return console.log(err)
   }
   const {username} = await response.json()
-  console.log({username})
 
   store.auth = {loggedIn: true, username}
 }
