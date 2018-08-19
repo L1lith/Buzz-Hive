@@ -8,9 +8,9 @@ async function loadAuthentication() {
     store.auth = {loggedIn: false}
     return console.log(err)
   }
-  const {username} = await response.json()
+  const {name} = await response.json()
 
-  store.auth = {loggedIn: true, username}
+  store.auth = {loggedIn: true, name}
 }
 
 export default loadAuthentication

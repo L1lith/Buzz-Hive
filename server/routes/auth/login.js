@@ -21,7 +21,7 @@ function login(router, {models, functions}) {
           if (err) return next(err)
           res.cookie('username', username, {httpOnly: true, sameSite: true})
           res.cookie('session', token, {httpOnly: true, sameSite: true})
-          res.status(200).json({username})
+          res.status(200).json({name: user.displayName})
         })
       })
     })

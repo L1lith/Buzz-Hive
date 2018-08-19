@@ -12,6 +12,10 @@ module.exports = {
     unique: true,
     lowercase: true
   },
+  displayName: {
+    type: String,
+    required: true
+  },
   created: {
     type: Date,
     default: Date.now,

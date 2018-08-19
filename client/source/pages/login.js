@@ -9,7 +9,10 @@ class Login extends React.Component {
   async submit({username, password}) {
     const response = await fetch('/auth/login', {headers: {Authorization: "Basic "+btoa(`${username}:${password}`)}})
     if (Math.floor(response.status / 100) === 2) {
-
+      const {auth} = this.props.store
+      auth.name = (await response.json()).name
+      auth.loggedIn = true
+      console.log(auth)
     } else {
       throw response.statusText || "Error"
     }
@@ -27,4 +30,4 @@ class Login extends React.Component {
   }
 }
 
-export default {path: '/login', component: Login}
+export default {path: '/login', component: Login, connect: {auth: true}}
