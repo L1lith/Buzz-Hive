@@ -1,7 +1,28 @@
+import {Form, Input, Submit} from 'react-smart-form'
+import autoBind from 'auto-bind'
+
 class Login extends React.Component {
+  constructor(props) {
+    super(props)
+    autoBind(this)
+  }
+  async submit({username, password}) {
+    const response = await fetch('/auth/login', {headers: {Authorization: "Basic "+btoa(`${username}:${password}`)}})
+    if (Math.floor(response.status / 100) === 2) {
+
+    } else {
+      throw response.statusText || "Error"
+    }
+  }
   render() {
     return (
-      <p>login</p>
+      <Form onSubmit={this.submit}>
+        <Input name="username" label="Username" />
+        <Input name="password" label="Password" />
+      <Submit>
+          Login
+      </Submit>
+    </Form>
     )
   }
 }
