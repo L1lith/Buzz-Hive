@@ -1,27 +1,33 @@
 import {Form, Input, Submit} from 'react-smart-form'
 import autoBind from 'auto-bind'
+import {Redirect} from 'react-router-dom'
+
+const mapResponseTexts = {
+  "Unauthorized": "Invalid Username or Password"
+}
 
 class Login extends React.Component {
   constructor(props) {
     super(props)
     autoBind(this)
+    this.state = {successful: null, error: null}
   }
   async submit({username, password}) {
     const response = await fetch('/auth/login', {headers: {Authorization: "Basic "+btoa(`${username}:${password}`)}})
     if (Math.floor(response.status / 100) === 2) {
       const {auth} = this.props.store
-      auth.name = (await response.json()).name
-      auth.loggedIn = true
-      console.log(auth)
+      this.props.store.auth = {loggedIn: true, name: (await response.json()).name}
+      this.setState({successful: true})
     } else {
-      throw response.statusText || "Error"
+      this.setState({successful: false, error: mapResponseTexts.hasOwnProperty(response.statusText) ? mapResponseTexts[response.statusText] : response.statusText || null})
     }
   }
   render() {
+    if (this.state.successful === true ) return <Redirect to="/"/>
     return (
       <Form onSubmit={this.submit}>
-        <Input name="username" label="Username" />
-        <Input name="password" label="Password" />
+        <Input required type="text" name="username" label="Username" />
+        <Input type="password" name="password" label="Password" />
       <Submit>
           Login
       </Submit>
