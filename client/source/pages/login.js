@@ -1,6 +1,6 @@
-import {Form, Input, Submit} from 'react-smart-form'
 import autoBind from 'auto-bind'
 import {Redirect} from 'react-router-dom'
+import {Form} from 'sandforms-react'
 
 const mapResponseTexts = {
   "Unauthorized": "Invalid Username or Password"
@@ -25,13 +25,11 @@ class Login extends React.Component {
   render() {
     if (this.state.successful === true ) return <Redirect to="/"/>
     return (
-      <Form onSubmit={this.submit}>
-        <Input required type="text" name="username" label="Username" />
-        <Input type="password" name="password" label="Password" />
-      <Submit>
-          Login
-      </Submit>
-    </Form>
+      <Form onSubmit={this.submit} onError={console.log}>
+        <input name="username"/>
+        <input name="password" type="password"/>
+        <input type="submit"/>
+      </Form>
     )
   }
 }
