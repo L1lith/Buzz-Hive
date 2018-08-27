@@ -2,10 +2,34 @@
   margin: 0;
   padding: 0;
 }
+form > * {
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+}
 a {
   color: inherit;
 }
-
+button, input[type="submit"] {
+  padding: 5px 10px;
+  background-color: #ffffffd4;
+  border: 1px solid #514c96;
+  color: inherit;
+  border-radius: 2px;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
+input {
+  font-size: inherit;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #685d94;
+  color: inherit;
+}
+// input:not([type]), input[type="password"] {
+//   -webkit-box-shadow: 0 0 0 30px white inset !important;
+// }
 body {
   position: absolute;
   top: 0;

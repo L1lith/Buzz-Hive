@@ -31,12 +31,14 @@ class Login extends React.Component {
     if (this.state.successful === true ) return <Redirect to="/"/>
     console.log(this.state.error)
     return (
-      <Form onSubmit={this.submit} onError={error => this.setState({error})}>
+      <Form className="login" onSubmit={this.submit} onError={error => this.setState({error})}>
         {this.state.error ? (
           <span className="error">{this.state.error}</span>
         ) : null}
-        <input name="username"/>
-        <input name="password" type="password"/>
+        <label for="username">Username</label>
+        <input id="username" name="username"/>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password"/>
         <input type="submit"/>
       </Form>
     )
