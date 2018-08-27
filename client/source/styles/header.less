@@ -9,21 +9,23 @@ header.main {
   line-height: 70px;
   padding: 0 50px;
   background-color: #ffffff73;
+  & > *:not(:last-child), .right > *:not(:last-child) {
+    margin-right: 60px;
+  }
   a {
     text-decoration: inherit;
   }
   & > * {
     display: inline-block;
+    vertical-align: middle;
   }
   .site-title {
+    vertical-align: top;
     font-family: 'Playfair Display', serif;
   }
   .right {
     position: absolute;
     right: 70px;
     line-height: 70px;
-    & > *:not(:last-child) {
-      margin-right: 30px;
-    }
   }
 }
