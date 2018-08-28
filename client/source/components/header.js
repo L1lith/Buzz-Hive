@@ -18,7 +18,6 @@ class Header extends React.Component {
     )
   }
   renderAuth() {
-    if (noAuthHeaderRoutes.includes(this.props.location.pathname)) return null
     if (this.props.location.pathname === '/login') return <button><Link to="/signup">Signup</Link></button>
     const {loggedIn, name} = this.props.store.auth
     if (loggedIn === null) {
