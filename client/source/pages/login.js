@@ -45,4 +45,4 @@ class Login extends React.Component {
   }
 }
 
-export default {path: '/login', component: Login, connect: {auth: true}}
+export default {path: '/login', exact: true, component: Login, connect: {auth: true}}

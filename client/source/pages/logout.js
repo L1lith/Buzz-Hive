@@ -31,4 +31,4 @@ class Logout extends React.Component {
   }
 }
 
-export default {path: '/logout', component: Logout, connect: {auth: true}}
+export default {path: '/logout', exact: true, component: Logout, connect: {auth: true}}

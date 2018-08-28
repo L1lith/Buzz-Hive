@@ -5,11 +5,13 @@ class Profile extends React.Component {
   render() {
     return (
       <Authorized>
-        <p>Welcome {this.props.store.auth.name}</p>
-        <button className="logout"><Link to="/logout">Logout</Link></button>
+        <div className="info profile">
+          <p className="name">Welcome {this.props.store.auth.name}</p>
+          <button className="logout"><Link to="/logout">Logout</Link></button>
+        </div>
       </Authorized>
     )
   }
 }
 
-export default {path: '/profile', component: Profile, connect: {auth: true}}
+export default {path: '/profile', exact: true, component: Profile, connect: {auth: true}}
