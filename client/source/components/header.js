@@ -2,8 +2,6 @@ import {connect} from 'jabr-react'
 import autoBind from 'auto-bind'
 import {Link, withRouter} from 'react-router-dom'
 
-const noAuthHeaderRoutes = ['/login', '/signup']
-
 class Header extends React.Component {
   constructor(props) {
     super(props)
@@ -21,6 +19,7 @@ class Header extends React.Component {
   }
   renderAuth() {
     if (noAuthHeaderRoutes.includes(this.props.location.pathname)) return null
+    if (this.props.location.pathname === '/login') return <button><Link to="/signup">Signup</Link></button>
     const {loggedIn, name} = this.props.store.auth
     if (loggedIn === null) {
       return null

@@ -34,9 +34,9 @@ class Login extends React.Component {
         {this.state.error ? (
           <span className="error">{this.state.error}</span>
         ) : null}
-        <label for="username">Username</label>
+        <label htmlFor="username">Username</label>
         <input id="username" name="username"/>
-        <label for="password">Password</label>
+        <label htmlFor="password">Password</label>
         <input id="password" name="password" type="password"/>
         <input type="submit"/>
       </Form>
