@@ -7,7 +7,6 @@ class Profile extends React.Component {
       <Authorized>
         <div className="info profile">
           <p className="name">Welcome {this.props.store.auth.name}</p>
-          <button className="logout"><Link to="/logout">Logout</Link></button>
         </div>
       </Authorized>
     )

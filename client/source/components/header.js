@@ -2,7 +2,7 @@ import {connect} from 'jabr-react'
 import autoBind from 'auto-bind'
 import {Link, withRouter} from 'react-router-dom'
 
-const noAuthHeaderRoutes = ['/login', '/signup', '/profile']
+const noAuthHeaderRoutes = ['/login', '/signup']
 
 class Header extends React.Component {
   constructor(props) {
@@ -25,9 +25,9 @@ class Header extends React.Component {
     if (loggedIn === null) {
       return null
     } else if (loggedIn === true) {
-      return <Link to="/profile">{name}</Link>
+      return <button className="logout"><Link to="/logout">Logout {name}</Link></button>
     } else if (loggedIn === false) {
-      return <Link to="/login">Login</Link>
+      return <button><Link to="/login">Login</Link></button>
     } else {
       return null
     }

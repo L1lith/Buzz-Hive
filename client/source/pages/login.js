@@ -29,7 +29,6 @@ class Login extends React.Component {
   }
   render() {
     if (this.state.successful === true ) return <Redirect to="/"/>
-    console.log(this.state.error)
     return (
       <Form className="login" onSubmit={this.submit} onError={error => this.setState({error})}>
         {this.state.error ? (
