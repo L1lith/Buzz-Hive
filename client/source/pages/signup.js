@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom'
 import {Form} from 'sandforms-react'
 
 const mapResponseTexts = {
-  //"Unauthorized": "Invalid Username or Password"
+  "Bad Request": "Malformed Request"
 }
 
 class Signup extends React.Component {

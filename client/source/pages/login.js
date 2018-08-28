@@ -4,7 +4,7 @@ import {Form} from 'sandforms-react'
 
 const mapResponseTexts = {
   "Unauthorized": "Incorrect Username or Password",
-  "Bad Request": "Invalid Username or Password"
+  "Bad Request": "Malformed Request"
 }
 
 class Login extends React.Component {
