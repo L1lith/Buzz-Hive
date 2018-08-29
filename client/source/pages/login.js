@@ -37,8 +37,8 @@ class Login extends React.Component {
         {this.state.error ? (
           <span className="error">{this.state.error}</span>
         ) : null}
-        <Input name="username" placeholder="username" customFormat="username"/>
-        <Input name="password" placeholder="password" type="password" customFormat="password"/>
+        <Input name="username" placeholder="username" customFormat="username" autoComplete="username"/>
+        <Input name="password" placeholder="password" type="password" customFormat="password" autoComplete="password"/>
         <Input type="submit" value="Login"/>
       </Form>
     )

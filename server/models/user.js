@@ -3,8 +3,7 @@ module.exports = {
     type: String,
     required: true,
     unique: true,
-    lowercase: true,
-    minlength: 1
+    lowercase: true
   },
   email: {
     type: String,
