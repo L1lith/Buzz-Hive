@@ -1,6 +1,6 @@
 import autoBind from 'auto-bind'
 import {Redirect} from 'react-router-dom'
-import {Form} from 'sandforms-react'
+import {Form, Input} from 'sandforms-react'
 
 const mapResponseTexts = {
   "Unauthorized": "Incorrect Username or Password",
@@ -36,11 +36,9 @@ class Login extends React.Component {
         {this.state.error ? (
           <span className="error">{this.state.error}</span>
         ) : null}
-        <label htmlFor="username">Username</label>
-        <input id="username" name="username"/>
-        <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password"/>
-        <input type="submit"/>
+        <Input name="username" placeholder="username" customFormat="username"/>
+        <Input name="password" placeholder="password" type="password"/>
+        <Input type="submit" value="Login"/>
       </Form>
     )
   }

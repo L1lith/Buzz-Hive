@@ -1,6 +1,6 @@
 import autoBind from 'auto-bind'
 import {Redirect} from 'react-router-dom'
-import {Form} from 'sandforms-react'
+import {Form, Input} from 'sandforms-react'
 
 const mapResponseTexts = {
   "Bad Request": "Malformed Request"
@@ -35,13 +35,10 @@ class Signup extends React.Component {
         {this.state.error ? (
           <span className="error">{this.state.error}</span>
         ) : null}
-        <label htmlFor="username">Username</label>
-        <input autoComplete="username" id="username" name="username"/>
-        <label htmlFor="password">Password</label>
-        <input autoComplete="new-password" id="password" name="password" type="password"/>
-        <label htmlFor="email">Email</label>
-        <input autoComplete="email" id="email" name="email" email/>
-        <input type="submit"/>
+        <Input autoComplete="username" placeholder="username" name="username"/>
+        <Input autoComplete="new-password" placeholder="password" name="password" type="password"/>
+        <Input autoComplete="email" placeholder="email" name="email" email/>
+        <Input type="submit" value="Signup"/>
       </Form>
     )
   }
