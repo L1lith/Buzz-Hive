@@ -1,6 +1,7 @@
 import autoBind from 'auto-bind'
 import {Redirect} from 'react-router-dom'
 import {Form, Input} from 'sandforms-react'
+import titleCase from 'Functions/titlecase'
 
 const mapResponseTexts = {
   "Unauthorized": "Incorrect Username or Password",
@@ -32,12 +33,12 @@ class Login extends React.Component {
   render() {
     if (this.state.successful === true ) return <Redirect to="/"/>
     return (
-      <Form className="login" onSubmit={this.submit} onError={error => this.setState({error})}>
+      <Form className="login" onSubmit={this.submit} onError={(error, input) => this.setState({error: titleCase(input.name.split('-').join(' ')) + ": " + error})}>
         {this.state.error ? (
           <span className="error">{this.state.error}</span>
         ) : null}
         <Input name="username" placeholder="username" customFormat="username"/>
-        <Input name="password" placeholder="password" type="password"/>
+        <Input name="password" placeholder="password" type="password" customFormat="password"/>
         <Input type="submit" value="Login"/>
       </Form>
     )

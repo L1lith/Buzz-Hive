@@ -1,6 +1,7 @@
 import autoBind from 'auto-bind'
 import {Redirect} from 'react-router-dom'
 import {Form, Input} from 'sandforms-react'
+import titleCase from 'Functions/titlecase'
 
 const mapResponseTexts = {
   "Bad Request": "Malformed Request"
@@ -31,12 +32,12 @@ class Signup extends React.Component {
   render() {
     if (this.state.successful === true ) return <Redirect to="/"/>
     return (
-      <Form className="signup" onSubmit={this.submit} onError={error => this.setState({error})}>
+      <Form className="signup" onSubmit={this.submit} onError={(error, input) => this.setState({error: titleCase(input.name.split('-').join(' ')) + ": " + error})}>
         {this.state.error ? (
           <span className="error">{this.state.error}</span>
         ) : null}
-        <Input autoComplete="username" placeholder="username" name="username"/>
-        <Input autoComplete="new-password" placeholder="password" name="password" type="password"/>
+        <Input autoComplete="username" placeholder="username" name="username" customFormat="username"/>
+        <Input autoComplete="new-password" placeholder="password" name="password" type="password" customFormat="password"/>
         <Input autoComplete="email" placeholder="email" name="email" email/>
         <Input type="submit" value="Signup"/>
       </Form>
