@@ -8,7 +8,6 @@ function getDevices(data) {
     if (singleDevice === true) {
       return async (req, res, next) => {
         if (req.user === undefined) return next(new Error('Missing Req User'))
-        if (req.user.devices.length < 1) return res.status(400).send('No Registered Devices')
         let {device} = req.query
         const queryError = details(device, String)
         if (queryError !== null) return res.status(400).send(queryError)

@@ -20,28 +20,30 @@ class Devices extends React.Component {
     return devices
   }
   async registerThisDevice() {
-    const worker = await registerServiceWorker()
-    const pushSubscription = await setupPushNotifications(worker)
-    console.log(pushSubscription, worker)
+    if (this.props.store.device !== null || this.state.devices === null) return
+    const device = await setupPushNotifications(await registerServiceWorker())
+    console.log(device)
+    this.setState({devices: this.state.devices.concat([{id: device.id, name: device.name}])})
   }
   render() {
     const {devices} = this.state
+    const {device} = this.props.store
     return (
       <Authorized>
         {devices === null ? (
           <p>Loading Devices...</p>
         ) : (
           <div className="devices">
-
-              {this.state.devices.length > 0 ?
-                (<ul className="list">{this.state.devices.map((device, index) => (
+              {devices.length > 0 ?
+                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (
                 <li key={index} className="device">
-
+                  <h3 className="name">{name}{device !== null && name === device.name ? " (This Device)" : null}</h3>
+                  <span className="id">ID: {id}</span>
                 </li>
               ))}</ul>) : (
                 <p>No Devices Found.</p>
               )}
-            <button onClick={this.registerThisDevice}>Register This Device</button>
+            {device === null ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
           </div>
         )}
       </Authorized>
@@ -49,4 +51,4 @@ class Devices extends React.Component {
   }
 }
 
-export default {path: '/devices', component: Devices, exact: true, connect: {auth: true}}
+export default {path: '/devices', component: Devices, exact: true, connect: {auth: true, device: true}}

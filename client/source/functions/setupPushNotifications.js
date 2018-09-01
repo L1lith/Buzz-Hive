@@ -1,6 +1,7 @@
 import fetchIfModified from './fetchIfModified'
 import urlBase64ToUint8Array from './urlBase64ToUint8Array'
 import removeMissingProperties from './removeMissingProperties'
+import store from 'Store'
 
 
 async function setupPushNotifications(worker) {
@@ -10,7 +11,6 @@ async function setupPushNotifications(worker) {
   if (!localStorage.deviceId) {
     if (pushSubscription) await pushSubscription.unsubscribe()
     await registerDevice(await subscribe(worker, vapidKey))
-    return
   } else if (vapidKeyRequest.modified === true || !pushSubscription) {
     if (pushSubscription) await pushSubscription.unsubscribe()
     await setSubscription(await subscribe(worker, vapidKey))
@@ -22,6 +22,7 @@ async function setupPushNotifications(worker) {
       await registerDevice(pushSubscription)
     }
   }
+  store.device = {id: localStorage.deviceId, name: localStorage.deviceName};
   return {pushSubscription, vapidKey, id: localStorage.deviceId, name: localStorage.deviceName}
 }
 
