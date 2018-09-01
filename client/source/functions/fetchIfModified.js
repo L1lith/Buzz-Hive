@@ -4,7 +4,8 @@ async function fetchIfModified(url, fetchOptions={}) {
   if (cache) {
     cache = JSON.parse(cache)
     const {lastFetched, lastValue} = cache
-    const response = await fetch(url, {...fetchOptions, headers: {"If-Modified-Since": lastFetched}})
+    // {...fetchOptions, headers: {"If-Modified-Since": lastFetched}}
+    const response = await fetch(url,  {...fetchOptions, headers: {"If-Modified-Since": lastFetched}})
     if (response.status === 200) {
       const value = await response.text()
       cacheResponse(cachePath, value)

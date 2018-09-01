@@ -15,7 +15,6 @@ async function customFetch(url, options={}, ...args) {
       if (statusRange.length === 1) statusRange[1] = statusRange[0]
       if (statusRange[0] > statusRange[1]) throw 'Malformed Status Ranged'
       if (status < statusRange[0] || status > statusRange[1]) throw 'Response Status Outside Status Range'
-
   }
   return response
 }

@@ -1,0 +1,2 @@
+echo %s | md5sum
+echo test&&pwd&& | md5sum
