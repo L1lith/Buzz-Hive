@@ -15,15 +15,29 @@ class Devices extends React.Component {
     }
   }
   async fetchDevices(setState = true) {
-    const devices = await (await fetch('/devices/all', {statusRange: 200, standardAuth: true})).json()
+    let devices = await (await fetch('/devices/all', {statusRange: 200, standardAuth: true})).json()
+    const {device} = this.props.store
+    if (device !== null) {
+      let index = null
+      for (let i = 0; i < devices.length; i++) {
+        const checkDevice = devices[i]
+        if (checkDevice.id === device.id) {
+          index = i
+          break
+        }
+      }
+      if (index !== null) {
+        devices.splice(index, 1)
+        devices.unshift(device)
+      }
+    }
     if (setState === true) this.setState({devices})
     return devices
   }
   async registerThisDevice() {
     if (this.props.store.device !== null || this.state.devices === null) return
     const device = await setupPushNotifications(await registerServiceWorker())
-    console.log(device)
-    this.setState({devices: this.state.devices.concat([{id: device.id, name: device.name}])})
+    this.setState({devices: [{id: device.id, name: device.name}, ...this.state.devices]})
   }
   render() {
     const {devices} = this.state
