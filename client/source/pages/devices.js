@@ -51,7 +51,7 @@ class Devices extends React.Component {
               {devices.length > 0 ?
                 (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (
                 <li key={index} className="device">
-                  <h3 className="name">{name}{device !== null && name === device.name ? " (This Device)" : null}</h3>
+                  <h3 className="name"><button className="edit">✎</button>{name}{device !== null && name === device.name ? " (This Device)" : null}</h3>
                   <span className="id">ID: {id}</span>
                 </li>
               ))}</ul>) : (
