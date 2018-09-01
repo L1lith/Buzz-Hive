@@ -15,7 +15,7 @@ class Devices extends React.Component {
     }
   }
   async fetchDevices(setState = true) {
-    let devices = await (await fetch('/devices/all', {statusRange: 200, standardAuth: true})).json()
+    const devices = await (await fetch('/devices/all', {statusRange: 200, standardAuth: true})).json()
     const {device} = this.props.store
     if (device !== null) {
       let index = null
