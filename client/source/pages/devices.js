@@ -75,7 +75,7 @@ class Device extends React.Component {
   }
   render() {
     return (
-      <li className="device">
+      <li className="device info-row">
         {this.state.editingName !== true ? (
           <h3 className="name"><button onClick={this.editName} className="edit">✎</button>{this.state.name}{this.props.currentDevice === true ? <span className="this noselect"> (This Device)</span> : null}</h3>
         ) : (
