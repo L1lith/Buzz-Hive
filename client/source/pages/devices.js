@@ -42,7 +42,6 @@ class Devices extends React.Component {
   }
   async registerThisDevice() {
     if (this.props.store.device !== null || this.state.devices === null) return
-    this.props.store.device = null
     const device = await setupPushNotifications(await registerServiceWorker())
     this.setState({devices: [{id: device.id, name: device.name}, ...this.state.devices]})
     this.props.store.device = {id: device.id, name: device.name}
