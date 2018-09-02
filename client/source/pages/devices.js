@@ -53,18 +53,24 @@ class Devices extends React.Component {
         ) : (
           <div className="devices">
               {devices.length > 0 ?
-                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (
-                <li key={index} className="device">
-                  <h3 className="name"><button className="edit">✎</button>{name}{device !== null && name === device.name ? " (This Device)" : null}</h3>
-                  <span className="id">ID: {id}</span>
-                </li>
-              ))}</ul>) : (
+                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device currentDevice={device} key={index} name={name} id={id}/>))}</ul>) : (
                 <p>No Devices Found.</p>
               )}
             {device === null ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
           </div>
         )}
       </Authorized>
+    )
+  }
+}
+
+class Device extends React.Component {
+  render() {
+    return (
+      <li className="device">
+        <h3 className="name"><button className="edit">✎</button>{this.props.name}{this.props.currentDevice !== null && this.props.name === this.props.currentDevice.name ? <span className="this noselect"> (This Device)</span> : null}</h3>
+        <span className="id"><span className="noselect">ID: </span>{this.props.id}</span>
+      </li>
     )
   }
 }
