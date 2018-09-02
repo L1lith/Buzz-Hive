@@ -43,6 +43,7 @@ class Devices extends React.Component {
     if (this.props.store.device !== null || this.state.devices === null) return
     const device = await setupPushNotifications(await registerServiceWorker())
     this.setState({devices: [{id: device.id, name: device.name}, ...this.state.devices]})
+    this.props.store.device = {id: device.id, name: device.name}
   }
   render() {
     const {devices} = this.state
@@ -57,7 +58,7 @@ class Devices extends React.Component {
                 (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device store={this.props.store} currentDevice={device && device.name === name} key={index} name={name} id={id}/>))}</ul>) : (
                 <p>No Devices Found.</p>
               )}
-            {device === null && this.deviceLoaded === true ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
+            {device === null && this.state.deviceLoaded === true ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
           </div>
         )}
       </Authorized>
@@ -69,7 +70,7 @@ class Device extends React.Component {
   constructor(props) {
     super(props)
     autoBind(this)
-    this.state = {editingName: false, deleted: false}
+    this.state = {editingName: false, deleted: false, name: props.name}
   }
   render() {
     if (this.state.deleted === true) return null
