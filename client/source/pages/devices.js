@@ -15,6 +15,7 @@ class Devices extends React.Component {
     autoBind(this)
   }
   componentWillMount() {
+    console.log(JSON.stringify(this.props.store))
     if (this.props.store.auth.loggedIn === true) {
       this.fetchDevices()
     }

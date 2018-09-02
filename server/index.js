@@ -48,7 +48,7 @@ async function createServer() {
   return server
 }
 
-if (require.main === module) (async ()=>{
+(async ()=>{
   console.log('Creating Server')
   const server = await createServer()
   console.log('Starting Server')

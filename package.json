@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Notifications for everyone",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd ./server && npm install && npm start",
     "client": "cd ./client && npm install && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
