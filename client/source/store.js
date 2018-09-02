@@ -7,4 +7,11 @@ const store = jabr({
   device: null
 })
 
+store.on('device', newDevice => {
+  if (newDevice === null) {
+    delete localStorage.deviceId
+    delete localStorage.deviceName
+  }
+})
+
 export default store

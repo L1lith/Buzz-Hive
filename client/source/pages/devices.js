@@ -14,8 +14,9 @@ class Devices extends React.Component {
   componentWillMount() {
     if (this.props.store.auth.loggedIn === true) {
       this.fetchDevices()
-      loadDevice().then(()=>{
+      loadDevice().then(device => {
         this.setState({deviceLoaded: true})
+        this.props.store.device = device
       })
     }
   }
@@ -41,6 +42,7 @@ class Devices extends React.Component {
   }
   async registerThisDevice() {
     if (this.props.store.device !== null || this.state.devices === null) return
+    this.props.store.device = null
     const device = await setupPushNotifications(await registerServiceWorker())
     this.setState({devices: [{id: device.id, name: device.name}, ...this.state.devices]})
     this.props.store.device = {id: device.id, name: device.name}
@@ -55,7 +57,7 @@ class Devices extends React.Component {
         ) : (
           <div className="devices">
               {devices.length > 0 ?
-                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device store={this.props.store} currentDevice={device && device.name === name} key={index} name={name} id={id}/>))}</ul>) : (
+                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device refreshDevices={this.fetchDevices} store={this.props.store} currentDevice={device && device.name === name} key={index} name={name} id={id}/>))}</ul>) : (
                 <p>No Devices Found.</p>
               )}
             {device === null && this.state.deviceLoaded === true ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
@@ -90,10 +92,10 @@ class Device extends React.Component {
   }
   async delete() {
     await unregisterDevice(this.props.id)
-    this.setState({deleted: true})
     if (this.props.currentDevice === true) {
       this.props.store.device = null
     }
+    this.props.refreshDevices()
   }
   editName() {
     this.setState({editingName: true})

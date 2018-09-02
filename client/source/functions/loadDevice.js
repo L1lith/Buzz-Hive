@@ -5,8 +5,9 @@ async function loadDevice() {
   const worker = await navigator.serviceWorker.getRegistration()
   if (worker && store.device === null && localStorage.hasOwnProperty('deviceId') && localStorage.hasOwnProperty('deviceName')) {
     const {id, name} = await setupPushNotifications(worker)
-    store.device = {id, name}
+    return {id, name}
   }
+  return null
 }
 
 export default loadDevice
