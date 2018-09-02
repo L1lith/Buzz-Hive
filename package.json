@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Notifications for everyone",
   "scripts": {
+    "server": "cd ./server && npm install && npm start",
+    "client": "cd ./client && npm install && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,12 +17,16 @@
     "notifications",
     "push",
     "subscription",
-    "application"
+    "application",
+    "browser"
   ],
   "author": "L1lith",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/L1lith/Buzz-Hive/issues"
   },
-  "homepage": "https://github.com/L1lith/Buzz-Hive#readme"
+  "homepage": "https://github.com/L1lith/Buzz-Hive#readme",
+  "dependencies": {
+    "buzz-hive-server": "file:server"
+  }
 }
