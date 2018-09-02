@@ -4,7 +4,8 @@ const store = jabr({
   auth: {
     loggedIn: null
   },
-  device: null
+  device: null,
+  deviceLoaded: false
 })
 
 store.on('device', newDevice => {

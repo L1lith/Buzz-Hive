@@ -4,20 +4,23 @@ import registerServiceWorker from 'Functions/registerServiceWorker'
 import setupPushNotifications from 'Functions/pushNotifications/setup'
 import loadDevice from 'Functions/loadDevice'
 import unregisterDevice from 'Functions/pushNotifications/unregisterDevice'
+import store from 'Store'
+
+loadDevice().then(device => {
+  store.device = device
+}).finally(() => {
+  store.deviceLoaded = true
+})
 
 class Devices extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {devices: null, deviceLoaded: false}
+    this.state = {devices: null}
     autoBind(this)
   }
   componentWillMount() {
     if (this.props.store.auth.loggedIn === true) {
       this.fetchDevices()
-      loadDevice().then(device => {
-        this.setState({deviceLoaded: true})
-        this.props.store.device = device
-      })
     }
   }
   async fetchDevices(setState = true) {
@@ -59,7 +62,7 @@ class Devices extends React.Component {
                 (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device refreshDevices={this.fetchDevices} store={this.props.store} currentDevice={device && device.name === name} key={index} name={name} id={id}/>))}</ul>) : (
                 <p>No Devices Found.</p>
               )}
-            {device === null && this.state.deviceLoaded === true ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
+            {device === null && this.props.store.deviceLoaded === true ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
           </div>
         )}
       </Authorized>
