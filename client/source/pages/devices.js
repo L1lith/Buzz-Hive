@@ -88,14 +88,14 @@ class Device extends React.Component {
   editName() {
     this.setState({editingName: true})
   }
-  editorKeyPress(event) {
+  async editorKeyPress(event) {
     if (event.key === 'Enter') {
       this.editorInput.value = this.editorInput.value.trim()
       const {value} = this.editorInput
       if (value.length < 1) return
       this.setState({editingName: false, name: value})
       if (value === this.state.name) return
-      
+      const response = await fetch(`/devices/update?device=${this.props.id}`, {method: 'PUT', body: {name: value}})
     }
   }
 }

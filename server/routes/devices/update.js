@@ -14,7 +14,7 @@ function updateDevice(router, {functions, middleware}) {
   const {validatePushURL} = functions
   router.put('/update', middleware.authenticate({getUser: true}),
     sandhandsExpress(bodyFormat),
-    middleware.pushSubscriptionBody(true),
+    middleware.pushSubscriptionBody(true, false),
     middleware.getDevices({singleDevice: true}),
       asyncHandler(async (req, res) => {
     const {device, body} = req
