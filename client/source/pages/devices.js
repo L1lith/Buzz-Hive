@@ -1,7 +1,7 @@
 import Authorized from 'Components/authorized'
 import autoBind from 'auto-bind'
 import registerServiceWorker from 'Functions/registerServiceWorker'
-import setupPushNotifications from 'Functions/setupPushNotifications'
+import setupPushNotifications from 'Functions/pushNotifications/setup'
 
 class Devices extends React.Component {
   constructor(props) {
@@ -42,6 +42,7 @@ class Devices extends React.Component {
   render() {
     const {devices} = this.state
     const {device} = this.props.store
+    console.log(devices, device)
     return (
       <Authorized>
         {devices === null ? (

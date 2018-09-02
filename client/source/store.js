@@ -4,10 +4,7 @@ const store = jabr({
   auth: {
     loggedIn: null
   },
-  device: localStorage.hasOwnProperty('deviceId') && localStorage.hasOwnProperty('deviceName') ? {
-    name: localStorage.deviceName,
-    id: localStorage.deviceId
-  } : null
+  device: null
 })
 
 export default store
