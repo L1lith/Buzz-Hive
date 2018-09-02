@@ -12,11 +12,18 @@ class Devices extends React.Component {
   constructor(props) {
     super(props)
     this.state = {devices: null}
+    this.fetched = false
     autoBind(this)
   }
   componentWillMount() {
-    console.log(JSON.stringify(this.props.store))
-    if (this.props.store.auth.loggedIn === true) {
+    this.checkFetch()
+  }
+  componentWillUpdate() {
+    this.checkFetch()
+  }
+  checkFetch() {
+    if (this.fetched === false && this.props.store.auth.loggedIn === true) {
+      this.fetched = true
       this.fetchDevices()
     }
   }
