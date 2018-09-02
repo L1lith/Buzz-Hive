@@ -10,6 +10,8 @@ const runScripts = require('./scripts')
 const {resolve} = require('path')
 const merge = require('merge-objects')
 
+const HTMLIndex = resolve(__dirname, '../client/static/index.html')
+
 const port = require('./config.json').port || 8040
 
 async function createServer() {
@@ -28,15 +30,21 @@ async function createServer() {
   server.use(bodyParser.json())
   server.use(cookieParser())
 
-  if (process.env.NODE_ENV !== 'production') {
-    server.use(express.static(resolve(__dirname, '../worker/dist')))
-    server.use(express.static(resolve(__dirname, '../client/dist')))
-    server.use(express.static(resolve(__dirname, '../client/static')))
-  }
-
+  server.use(express.static(resolve(__dirname, '../worker/dist')))
+  server.use(express.static(resolve(__dirname, '../client/dist')))
+  server.use(express.static(resolve(__dirname, '../client/static')))
 
   // Run Router
   server.use(await setupRoutes(data))
+
+  server.use((req, res, next) => {
+    if (req.accepts('html')) {
+      res.sendFile(HTMLIndex)
+    } else {
+      next()
+    }
+  })
+  
   return server
 }
 
