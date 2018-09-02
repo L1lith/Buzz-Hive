@@ -46,7 +46,6 @@ class Devices extends React.Component {
   render() {
     const {devices} = this.state
     const {device} = this.props.store
-    console.log(device, devices)
     return (
       <Authorized>
         {devices === null ? (
@@ -54,7 +53,7 @@ class Devices extends React.Component {
         ) : (
           <div className="devices">
               {devices.length > 0 ?
-                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device currentDevice={device && device.name === name} key={index} name={name} id={id}/>))}</ul>) : (
+                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device store={this.props.store} currentDevice={device && device.name === name} key={index} name={name} id={id}/>))}</ul>) : (
                 <p>No Devices Found.</p>
               )}
             {device === null && this.deviceLoaded === true ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
@@ -75,7 +74,6 @@ class Device extends React.Component {
     if (!this.state.hasOwnProperty('name')) this.setState({name: this.props.name})
   }
   render() {
-    console.log(this.props)
     return (
       <li className="device">
         {this.state.editingName !== true ? (
@@ -97,7 +95,11 @@ class Device extends React.Component {
       if (value.length < 1) return
       this.setState({editingName: false, name: value})
       if (value === this.state.name) return
-      const response = await fetch(`/devices/update?device=${this.props.id}`, {method: 'PUT', body: {name: value}})
+      const response = await fetch(`/devices/update?device=${this.props.id}`, {statusRange: 200, method: 'PUT', body: {name: value}})
+      if (this.props.currentDevice === true) {
+        localStorage.deviceName = value
+        this.props.store.device.name = value
+      }
     }
   }
 }
