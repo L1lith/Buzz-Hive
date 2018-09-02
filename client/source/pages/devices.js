@@ -77,7 +77,7 @@ class Device extends React.Component {
     return (
       <li className="device info-row">
         {this.state.editingName !== true ? (
-          <h3 className="name"><button onClick={this.editName} className="edit">✎</button>{this.state.name}{this.props.currentDevice === true ? <span className="this noselect"> (This Device)</span> : null}</h3>
+          <h3 className="name"><span className="icons actions"><button className="delete icon" onClick={this.delete}>✖</button><button onClick={this.editName} className="edit icon">✎</button></span>{this.state.name}{this.props.currentDevice === true ? <span className="this noselect"> (This Device)</span> : null}</h3>
         ) : (
           <input ref={ref => this.editorInput = ref} onKeyPress={this.editorKeyPress} defaultValue={this.state.name} className="editname" placeholder="name"/>
         )}
