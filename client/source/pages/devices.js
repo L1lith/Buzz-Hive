@@ -3,6 +3,7 @@ import autoBind from 'auto-bind'
 import registerServiceWorker from 'Functions/registerServiceWorker'
 import setupPushNotifications from 'Functions/pushNotifications/setup'
 import loadDevice from 'Functions/loadDevice'
+import unregisterDevice from 'Functions/pushNotifications/unregisterDevice'
 
 class Devices extends React.Component {
   constructor(props) {
@@ -68,12 +69,10 @@ class Device extends React.Component {
   constructor(props) {
     super(props)
     autoBind(this)
-    this.state = {editingName: false}
-  }
-  componentWillMount() {
-    if (!this.state.hasOwnProperty('name')) this.setState({name: this.props.name})
+    this.state = {editingName: false, deleted: false}
   }
   render() {
+    if (this.state.deleted === true) return null
     return (
       <li className="device info-row">
         {this.state.editingName !== true ? (
@@ -84,6 +83,16 @@ class Device extends React.Component {
         <span className="id"><span className="noselect">ID: </span>{this.props.id}</span>
       </li>
     )
+  }
+  componentWillMount() {
+    if (!this.state.hasOwnProperty('name')) this.setState({name: this.props.name})
+  }
+  async delete() {
+    await unregisterDevice(this.props.id)
+    this.setState({deleted: true})
+    if (this.props.currentDevice === true) {
+      this.props.store.device = null
+    }
   }
   editName() {
     this.setState({editingName: true})
