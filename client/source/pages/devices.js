@@ -6,11 +6,7 @@ import loadDevice from 'Functions/loadDevice'
 import unregisterDevice from 'Functions/pushNotifications/unregisterDevice'
 import store from 'Store'
 
-loadDevice().then(device => {
-  store.device = device
-}).finally(() => {
-  store.deviceLoaded = true
-})
+loadDevice()
 
 class Devices extends React.Component {
   constructor(props) {
