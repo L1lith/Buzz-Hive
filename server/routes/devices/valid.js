@@ -2,7 +2,7 @@ const equal = require('deep-equal')
 
 function validDevice(router, {middleware}) {
   router.post('/valid',
-    middleware.pushSubscriptionBody,
+    middleware.pushSubscriptionBody(false),
     middleware.authenticate({getUser: true}),
     middleware.getDevices({singleDevice: true}),
       (req, res) => {

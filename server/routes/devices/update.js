@@ -1,20 +1,28 @@
+const asyncHandler = require('express-async-handler')
+const {sandhandsExpress} = require('sandhands')
+
+const bodyFormat = {_: {
+  subscription: {
+    _: {}, strict: false, optional: true
+  },
+  name: {
+    _: String, optional: true
+  }
+}, validate: body => Object.keys(body).length > 0 ? true : 'Body Empty'}
+
 function updateDevice(router, {functions, middleware}) {
   const {validatePushURL} = functions
   router.put('/update', middleware.authenticate({getUser: true}),
-    middleware.pushSubscriptionBody,
+    sandhandsExpress(bodyFormat),
+    middleware.pushSubscriptionBody(true),
     middleware.getDevices({singleDevice: true}),
-      (req, res) => {
-    const {device} = req
+      asyncHandler(async (req, res) => {
+    const {device, body} = req
 
-    const pushURLError = validatePushURL(req.body.endpoint)
-    if (pushURLError) return res.sendStatus(400).send(pushURLError)
-
-    device.subscription = req.body
-    device.save(err => {
-      if (err) return next(err)
-      res.sendStatus(200)
-    })
-  })
+    Object.assign(device, req.body)
+    await device.save()
+    return res.sendStatus(200)
+  }))
 }
 
 module.exports = updateDevice

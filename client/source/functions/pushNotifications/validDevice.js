@@ -1,7 +1,7 @@
 import removeMissingProperties from 'Functions/removeMissingProperties'
 
 async function validDevice(pushSubscription) {
-  const response = await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceId), {method: 'post', body: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))})
+  const response = await fetch('/devices/valid?device='+encodeURIComponent(localStorage.deviceId), {method: 'post', body: {subscription: removeMissingProperties(JSON.parse(JSON.stringify(pushSubscription)))}})
   if (Math.floor(response.status / 100) === 2) {
     return 'valid'
   } else if (response.status === 404) {

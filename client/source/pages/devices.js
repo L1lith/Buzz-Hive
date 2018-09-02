@@ -65,13 +65,38 @@ class Devices extends React.Component {
 }
 
 class Device extends React.Component {
+  constructor(props) {
+    super(props)
+    autoBind(this)
+    this.state = {editingName: false}
+  }
+  componentWillMount() {
+    if (!this.state.hasOwnProperty('name')) this.setState({name: this.props.name})
+  }
   render() {
     return (
       <li className="device">
-        <h3 className="name"><button className="edit">✎</button>{this.props.name}{this.props.currentDevice !== null && this.props.name === this.props.currentDevice.name ? <span className="this noselect"> (This Device)</span> : null}</h3>
+        {this.state.editingName !== true ? (
+          <h3 className="name"><button onClick={this.editName} className="edit">✎</button>{this.state.name}{this.props.currentDevice !== null && this.props.name === this.props.currentDevice.name ? <span className="this noselect"> (This Device)</span> : null}</h3>
+        ) : (
+          <input ref={ref => this.editorInput = ref} onKeyPress={this.editorKeyPress} defaultValue={this.state.name} className="editname" placeholder="name"/>
+        )}
         <span className="id"><span className="noselect">ID: </span>{this.props.id}</span>
       </li>
     )
+  }
+  editName() {
+    this.setState({editingName: true})
+  }
+  editorKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.editorInput.value = this.editorInput.value.trim()
+      const {value} = this.editorInput
+      if (value.length < 1) return
+      this.setState({editingName: false, name: value})
+      if (value === this.state.name) return
+      
+    }
   }
 }
 

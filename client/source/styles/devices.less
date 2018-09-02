@@ -15,9 +15,20 @@
       border: 2px solid #696279;
       border-width: 2px 0;
       background: linear-gradient(to right, transparent, #9881d038, #9881d038, transparent);
-      > .name {
+      > * {
+        display: block;
+        margin: 0 auto;
+      }
+      > .name, .editname {
         text-shadow: 0 0 5px #ffffff;
         color: #40468c;
+        font-size: 1.3em;
+      }
+      > .editname {
+        border: none;
+        text-align: center;
+      }
+      > .name {
         > .edit {
           user-select: none;
           border: none;

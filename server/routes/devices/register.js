@@ -5,12 +5,10 @@ function registerDevice(router, {middleware, functions, models}) {
   const {validatePushURL} = functions
   router.post('/register',
     middleware.authenticate({getUser: true}),
-    middleware.pushSubscriptionBody,
+    middleware.pushSubscriptionBody(false),
       (req, res, next) => {
 
-    const {endpoint} = req.body
-    const pushURLError = validatePushURL(endpoint)
-    if (pushURLError) return res.status(400).send(pushURLError)
+    const {endpoint} = req.body.subscription
     let deviceName = null
     if (req.headers['user-agent']) {
       const UA = new UAParser(req.headers['user-agent'])
