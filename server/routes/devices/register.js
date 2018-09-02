@@ -16,7 +16,7 @@ function registerDevice(router, {middleware, functions, models}) {
     } else {
       deviceName = "Unknown Device "+Math.random().toString().substring(2,6)
     }
-    const device = new Device({owner: req.user.username, name: deviceName, subscription: req.body})
+    const device = new Device({owner: req.user.username, name: deviceName, subscription: req.body.subscription})
     device.save(err => {
       if (err) return next(err)
       res.json({name: deviceName, id: device._id})
