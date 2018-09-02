@@ -46,6 +46,7 @@ class Devices extends React.Component {
   render() {
     const {devices} = this.state
     const {device} = this.props.store
+    console.log(device, devices)
     return (
       <Authorized>
         {devices === null ? (
@@ -53,7 +54,7 @@ class Devices extends React.Component {
         ) : (
           <div className="devices">
               {devices.length > 0 ?
-                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device currentDevice={device} key={index} name={name} id={id}/>))}</ul>) : (
+                (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device currentDevice={device && device.name === name} key={index} name={name} id={id}/>))}</ul>) : (
                 <p>No Devices Found.</p>
               )}
             {device === null && this.deviceLoaded === true ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
@@ -74,10 +75,11 @@ class Device extends React.Component {
     if (!this.state.hasOwnProperty('name')) this.setState({name: this.props.name})
   }
   render() {
+    console.log(this.props)
     return (
       <li className="device">
         {this.state.editingName !== true ? (
-          <h3 className="name"><button onClick={this.editName} className="edit">✎</button>{this.state.name}{this.props.currentDevice !== null && this.props.name === this.props.currentDevice.name ? <span className="this noselect"> (This Device)</span> : null}</h3>
+          <h3 className="name"><button onClick={this.editName} className="edit">✎</button>{this.state.name}{this.props.currentDevice === true ? <span className="this noselect"> (This Device)</span> : null}</h3>
         ) : (
           <input ref={ref => this.editorInput = ref} onKeyPress={this.editorKeyPress} defaultValue={this.state.name} className="editname" placeholder="name"/>
         )}
