@@ -7,7 +7,7 @@ function validDevice(router, {middleware}) {
     middleware.getDevices({singleDevice: true}),
       (req, res) => {
     if (equal(req.body.subscription, req.device.subscription)) {
-      res.sendStatus(200)
+      res.status(200).json({name: req.device.name})
     } else {
       res.sendStatus(409)
     }
