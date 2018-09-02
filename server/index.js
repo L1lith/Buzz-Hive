@@ -44,7 +44,7 @@ async function createServer() {
       next()
     }
   })
-  
+
   return server
 }
 
