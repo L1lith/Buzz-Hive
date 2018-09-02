@@ -2,17 +2,21 @@ import Authorized from 'Components/authorized'
 import autoBind from 'auto-bind'
 import registerServiceWorker from 'Functions/registerServiceWorker'
 import setupPushNotifications from 'Functions/pushNotifications/setup'
+import loadDevice from 'Functions/loadDevice'
 
 class Devices extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {devices: null}
+    this.state = {devices: null, deviceLoaded: false}
     autoBind(this)
   }
   componentDidMount() {
     if (this.props.store.auth.loggedIn === true) {
       this.fetchDevices()
     }
+    loadDevice().then(()=>{
+      this.setState({deviceLoaded: true})
+    })
   }
   async fetchDevices(setState = true) {
     const devices = await (await fetch('/devices/all', {statusRange: 200, standardAuth: true})).json()
@@ -42,10 +46,9 @@ class Devices extends React.Component {
   render() {
     const {devices} = this.state
     const {device} = this.props.store
-    console.log(devices, device)
     return (
       <Authorized>
-        {devices === null ? (
+        {devices === null || this.state.deviceLoaded !== true ? (
           <p>Loading Devices...</p>
         ) : (
           <div className="devices">
