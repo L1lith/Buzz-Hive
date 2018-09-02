@@ -10,13 +10,13 @@ class Devices extends React.Component {
     this.state = {devices: null, deviceLoaded: false}
     autoBind(this)
   }
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.store.auth.loggedIn === true) {
       this.fetchDevices()
+      loadDevice().then(()=>{
+        this.setState({deviceLoaded: true})
+      })
     }
-    loadDevice().then(()=>{
-      this.setState({deviceLoaded: true})
-    })
   }
   async fetchDevices(setState = true) {
     const devices = await (await fetch('/devices/all', {statusRange: 200, standardAuth: true})).json()
@@ -48,7 +48,7 @@ class Devices extends React.Component {
     const {device} = this.props.store
     return (
       <Authorized>
-        {devices === null || this.state.deviceLoaded !== true ? (
+        {devices === null ? (
           <p>Loading Devices...</p>
         ) : (
           <div className="devices">
@@ -56,7 +56,7 @@ class Devices extends React.Component {
                 (<ul className="list"><h2 className="title">Devices</h2>{devices.map(({name, id}, index) => (<Device currentDevice={device} key={index} name={name} id={id}/>))}</ul>) : (
                 <p>No Devices Found.</p>
               )}
-            {device === null ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
+            {device === null && this.deviceLoaded === true ? <button onClick={this.registerThisDevice}>Register This Device</button> : null}
           </div>
         )}
       </Authorized>
