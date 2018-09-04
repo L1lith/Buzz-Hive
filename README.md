@@ -1,5 +1,5 @@
 # Buzz Hive
-Buzz Hive allows you to send push notifications to your devices seamlessly using your web browser. There are no fees or limits. It includes baked-in authentication using Bcrypt so you can securely make it public facing. Also, there is no configuration required.
+Buzz Hive is a web server that allows you to send push notifications to your devices seamlessly using the API. There are no fees or limits. It includes baked-in authentication using Bcrypt so you can securely make it public facing. Also, there is no configuration required.
 
 ### Installation
 1. [Install and start MongoDB](https://docs.mongodb.com/manual/administration/install-community/)

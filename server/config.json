@@ -6,6 +6,6 @@
     "db": "buzz-hive",
     "useNewUrlParser": true
   },
-  "supportEmail": "example@buzzhive.net",
+  "requireEmailVerification": true,
   "allowedPushURLHostnames": ["fcm.googleapis.com", "updates.push.services.mozilla.com"]
 }

@@ -1,9 +1,10 @@
 const {details} = require('sandhands')
+const {requireEmailVerification} = require('../../config.json')
 
 function authenticate(data) {
   const {Session, User} = data.models
   return (options={}) => {
-    const {getUser=false, requireVerification=true} = options
+    const {getUser=false, requireVerification=requireEmailVerification} = options
     return (req, res, next) => {
       const reqError = details(req.cookies, {_: {username: 'username', session: String}, strict: false})
       if (reqError !== null) return res.status(400).json({cookies: reqError})
