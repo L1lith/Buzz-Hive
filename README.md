@@ -1,3 +1,5 @@
+[NOTE 2020] This library is now outdated. I believe the dependencies have changed too much. This project no longer works, however with a few tweaks I'm sure it could be up and running again. If someone else wants to maintain this I think it's an awesome project, otherwise I might think about renovating it at a later point.
+
 # Buzz Hive
 Buzz Hive is a web server that allows you to send push notifications to your devices seamlessly using the API. There are no fees or limits. It includes baked-in authentication using Bcrypt so you can securely make it public facing. Also, there is no configuration required.
 
